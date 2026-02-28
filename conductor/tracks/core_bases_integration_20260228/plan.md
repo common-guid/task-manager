@@ -1,48 +1,44 @@
 # Implementation Plan: Implement core Task Manager integration with Obsidian Bases
 
-## Phase 1: Task Schema and Extraction
-This phase defines the core task properties and implements the logic to extract them from Markdown files.
+## Phase 1: Heading Extraction and Hierarchy Mapping
+This phase implements the logic to extract headings and their hierarchical context from Markdown files.
 
-- [ ] Task: Define TypeScript interfaces for task properties and metadata
-    - [ ] Write unit tests for the task schema validation
-    - [ ] Implement the TypeScript interfaces based on the specification
-- [ ] Task: Implement Markdown property extraction logic
-    - [ ] Write failing unit tests for extracting `status`, `priority`, `due_date`, etc., from sample Markdown frontmatter
-    - [ ] Implement the extraction logic to pass the tests
-- [ ] Task: Conductor - User Manual Verification 'Phase 1: Task Schema and Extraction' (Protocol in workflow.md)
+- [x] Task: Define TypeScript interfaces for heading-based task records [6650dc0]
+    - [ ] Write unit tests for the hierarchical task data model
+    - [ ] Implement the `HeadingTask` interface with `file` and `h1-h6` fields
+- [ ] Task: Implement heading extraction logic
+    - [ ] Write failing unit tests for mapping a list of Obsidian `HeadingCache` objects to `HeadingTask` records
+    - [ ] Implement the mapper logic to correctly populate `h1-h6` columns based on the current heading's level and its preceding parents
+- [ ] Task: Conductor - User Manual Verification 'Phase 1: Heading Extraction and Hierarchy Mapping' (Protocol in workflow.md)
 
-## Phase 2: Bases View Configuration
-This phase defines the `.base` file structure and implements the generation of the Bases view configuration.
+## Phase 2: Custom Bases View Registration
+This phase focuses on registering the custom view within the Obsidian Bases ecosystem.
 
-- [ ] Task: Define the `.base` file structure for the Task Manager
-    - [ ] Write unit tests for `.base` file validation and structure
-    - [ ] Implement the `.base` generation logic
-- [ ] Task: Implement filtering and sorting logic within the Bases configuration
-    - [ ] Write unit tests for various task filtering and sorting scenarios
-    - [ ] Implement the filtering/sorting logic in the Bases configuration
-- [ ] Task: Conductor - User Manual Verification 'Phase 2: Bases View Configuration' (Protocol in workflow.md)
+- [ ] Task: Implement the "Task Table" layout registration
+    - [ ] Register the `task-table` view type in the plugin's `onload` function
+    - [ ] Create the `TaskBasesView` class extending `BasesView`
+- [ ] Task: Implement data flattening in the view
+    - [ ] Implement the `onDataUpdated` method to process `this.data`
+    - [ ] Write logic to transform the list of `BasesEntry` (files) into a flattened list of `HeadingTask` records
+- [ ] Task: Conductor - User Manual Verification 'Phase 2: Custom Bases View Registration' (Protocol in workflow.md)
 
-## Phase 3: Hub UI and Integration
-This phase implements the Task Manager Hub UI and integrates the Bases view into Obsidian.
+## Phase 3: Task Table UI Rendering
+This phase implements the specific table rendering logic for the Task Manager.
 
-- [ ] Task: Create the basic React structure for the Task Manager Hub
-    - [ ] Write unit tests for the Hub UI components (mocking Obsidian API)
-    - [ ] Implement the React components
-- [ ] Task: Integrate the Bases view into the Hub leaf
-    - [ ] Write integration tests for the view rendering and Bases integration
-    - [ ] Implement the integration logic using the Obsidian Bases API
-- [ ] Task: Implement the Ribbon action to open the Hub
-    - [ ] Write tests for the Ribbon action and command palette integration
-    - [ ] Implement the Ribbon action and command registration
-- [ ] Task: Conductor - User Manual Verification 'Phase 3: Hub UI and Integration' (Protocol in workflow.md)
+- [ ] Task: Create the React-based table component for headings
+    - [ ] Define the table structure with columns: `file`, `h1`, `h2`, `h3`, `h4`, `h5`, `h6`
+    - [ ] Implement conditional rendering to highlight the "current" heading level in each row
+- [ ] Task: Implement interactive features for headings
+    - [ ] Add links to the source file and specific heading (using Obsidian URI or `openLinkText`)
+    - [ ] Ensure hover previews work for the source file
+- [ ] Task: Conductor - User Manual Verification 'Phase 3: Task Table UI Rendering' (Protocol in workflow.md)
 
-## Phase 4: Final Validation and Documentation
-This phase focuses on end-to-end testing and final documentation.
+## Phase 4: Final Validation and Edge Case Handling
+This phase focuses on ensuring the system handles complex documents correctly.
 
-- [ ] Task: Perform end-to-end validation of the Task Manager
-    - [ ] Create a set of sample task files and verify their correct aggregation in the Hub
-    - [ ] Verify that updates to Markdown files are correctly reflected in the Bases view
-- [ ] Task: Update project documentation and README
-    - [ ] Add instructions for using the new Task Manager Hub
-    - [ ] Document any new commands or settings
+- [ ] Task: Verify hierarchy with deeply nested headings
+    - [ ] Create test files with varying heading levels (e.g., skip H2, go straight to H3)
+    - [ ] Verify that the hierarchy logic handles these cases gracefully
+- [ ] Task: Optimize rendering performance for large vaults
+    - [ ] Implement virtualization or efficient DOM updates for tables with many heading rows
 - [ ] Task: Conductor - User Manual Verification 'Phase 4: Final Validation and Documentation' (Protocol in workflow.md)

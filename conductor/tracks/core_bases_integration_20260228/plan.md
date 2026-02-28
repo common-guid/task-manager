@@ -6,7 +6,7 @@ This phase implements the logic to extract headings and their hierarchical conte
 - [x] Task: Define TypeScript interfaces for heading-based task records [6650dc0]
     - [ ] Write unit tests for the hierarchical task data model
     - [ ] Implement the `HeadingTask` interface with `file` and `h1-h6` fields
-- [ ] Task: Implement heading extraction logic
+- [x] Task: Implement heading extraction logic [c86b5c7]
     - [ ] Write failing unit tests for mapping a list of Obsidian `HeadingCache` objects to `HeadingTask` records
     - [ ] Implement the mapper logic to correctly populate `h1-h6` columns based on the current heading's level and its preceding parents
 - [ ] Task: Conductor - User Manual Verification 'Phase 1: Heading Extraction and Hierarchy Mapping' (Protocol in workflow.md)

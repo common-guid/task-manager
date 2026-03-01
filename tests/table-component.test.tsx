@@ -49,4 +49,29 @@ describe('TaskTable Component', () => {
     taskLink.click();
     expect(onOpenLink).toHaveBeenCalledWith('test.md', 'Task A');
   });
+
+  it('should cover all heading levels for highlighting and clicking', () => {
+    const onOpenLink = vi.fn();
+    const multiLevelTasks: HeadingTask[] = [1, 2, 3, 4, 5, 6].map(level => ({
+      file: `file${level}.md`,
+      h1: level === 1 ? 'H1' : null,
+      h2: level === 2 ? 'H2' : null,
+      h3: level === 3 ? 'H3' : null,
+      h4: level === 4 ? 'H4' : null,
+      h5: level === 5 ? 'H5' : null,
+      h6: level === 6 ? 'H6' : null,
+      level,
+      text: `H${level}`
+    }));
+
+    render(<TaskTable tasks={multiLevelTasks} onOpenLink={onOpenLink} />);
+
+    [1, 2, 3, 4, 5, 6].forEach(level => {
+      const headingText = `H${level}`;
+      const cell = screen.getByText(headingText);
+      expect(cell).toHaveClass('current-level');
+      cell.click();
+      expect(onOpenLink).toHaveBeenCalledWith(`file${level}.md`, headingText);
+    });
+  });
 });

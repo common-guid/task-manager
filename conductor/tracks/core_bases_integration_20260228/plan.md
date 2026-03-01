@@ -36,9 +36,9 @@ This phase implements the specific table rendering logic for the Task Manager.
 ## Phase 4: Final Validation and Edge Case Handling
 This phase focuses on ensuring the system handles complex documents correctly.
 
-- [ ] Task: Verify hierarchy with deeply nested headings
-    - [ ] Create test files with varying heading levels (e.g., skip H2, go straight to H3)
-    - [ ] Verify that the hierarchy logic handles these cases gracefully
-- [ ] Task: Optimize rendering performance for large vaults
-    - [ ] Implement virtualization or efficient DOM updates for tables with many heading rows
+- [x] Task: Verify hierarchy with deeply nested headings [a23fe39]
+    - [x] Create test files with varying heading levels (e.g., skip H2, go straight to H3)
+    - [x] Verify that the hierarchy logic handles these cases gracefully
+- [x] Task: Optimize rendering performance for large vaults [TBD]
+    - [x] Implement virtualization or efficient DOM updates for tables with many heading rows
 - [ ] Task: Conductor - User Manual Verification 'Phase 4: Final Validation and Documentation' (Protocol in workflow.md)

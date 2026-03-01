@@ -73,4 +73,36 @@ describe('Heading Mapper', () => {
       level: 4
     });
   });
+
+  it('should handle hierarchy reset when moving to a higher level', () => {
+    const fileName = 'reset.md';
+    const headings = [
+      { heading: 'Part 1', level: 1 },
+      { heading: 'Sec 1.1', level: 2 },
+      { heading: 'Part 2', level: 1 },
+    ] as any[];
+
+    const tasks = mapHeadingsToTasks(fileName, headings);
+
+    expect(tasks[2]).toMatchObject({
+      h1: 'Part 2',
+      h2: null,
+      level: 1
+    });
+  });
+
+  it('should handle multiple nested siblings', () => {
+    const fileName = 'siblings.md';
+    const headings = [
+      { heading: 'H1', level: 1 },
+      { heading: 'H2-A', level: 2 },
+      { heading: 'H2-B', level: 2 },
+    ] as any[];
+
+    const tasks = mapHeadingsToTasks(fileName, headings);
+
+    expect(tasks[1].h2).toBe('H2-A');
+    expect(tasks[2].h2).toBe('H2-B');
+    expect(tasks[2].h1).toBe('H1');
+  });
 });

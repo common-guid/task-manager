@@ -68,10 +68,24 @@ describe('TaskTable Component', () => {
 
     [1, 2, 3, 4, 5, 6].forEach(level => {
       const headingText = `H${level}`;
-      const cell = screen.getByText(headingText);
-      expect(cell).toHaveClass('current-level');
-      cell.click();
+      // Active heading text is now rendered inside a .level-pill <span>
+      const pill = screen.getByText(headingText);
+      expect(pill).toHaveClass('level-pill');
+      // The parent <td> retains the 'current-level' class
+      const td = pill.closest('td') as HTMLElement;
+      expect(td).toHaveClass('current-level');
+      // Click on the pill bubbles up to the td's onClick handler
+      pill.click();
       expect(onOpenLink).toHaveBeenCalledWith(`file${level}.md`, headingText);
     });
+  });
+
+  it('should render file icon wrapper in the file cell', () => {
+    render(<TaskTable tasks={tasks} />);
+
+    const fileWrapper = screen.getByText('test.md').closest('.file-icon-wrapper');
+    expect(fileWrapper).toBeInTheDocument();
+    // The wrapper contains an SVG icon
+    expect(fileWrapper?.querySelector('svg')).toBeInTheDocument();
   });
 });

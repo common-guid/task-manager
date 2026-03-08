@@ -1,0 +1,2 @@
+## Notion-Style Task Manager UI Upgrade | 2026-03-08
+Implemented a Notion-style visual overhaul for `TaskTable.tsx` across four phases: created a scoped `styles.css` with Obsidian CSS variables for enhanced row padding, column dividers, and hover effects; added an inline Lucide-style `FileIcon` SVG with a `.file-icon-wrapper` flex container in the file cell; wrapped active heading-level text in `.level-pill` badge spans; and updated the test suite to validate the new DOM structure (pill class on active spans, file icon wrapper presence).

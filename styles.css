@@ -1,0 +1,81 @@
+/* ============================================================
+   Task Manager Plugin — Notion-style table UI
+   All rules are scoped under .task-manager-table to prevent
+   conflicts with other Obsidian themes or plugins.
+   ============================================================ */
+
+/* Phase 2: Enhanced padding & row spacing */
+.task-manager-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95em;
+}
+
+.task-manager-table tr {
+  border-bottom: 1px solid var(--background-modifier-border);
+}
+
+.task-manager-table td {
+  padding: 8px 12px;
+  line-height: 1.5;
+  vertical-align: middle;
+}
+
+/* File icon wrapper — flex row for icon + filename */
+.file-icon-wrapper {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.file-icon-wrapper svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  color: var(--text-muted);
+}
+
+/* Phase 3: Pill badge for the active heading level */
+.level-pill {
+  display: inline-block;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background-color: var(--background-modifier-accent);
+  font-size: 0.85em;
+  color: var(--text-normal);
+}
+
+/* Phase 4: Structured header with subtle column dividers */
+.task-manager-table thead th {
+  padding: 8px 12px;
+  text-transform: capitalize;
+  color: var(--text-muted);
+  font-weight: 500;
+  text-align: left;
+  border-right: 1px solid var(--background-modifier-border);
+  border-bottom: 2px solid var(--background-modifier-border);
+}
+
+.task-manager-table thead th:last-child {
+  border-right: none;
+}
+
+/* Phase 4 (Bonus): Interactive row hover */
+.task-manager-table tbody tr:hover {
+  background-color: var(--background-modifier-hover);
+}
+
+/* Clickable cell styles */
+.task-manager-table td.link {
+  cursor: pointer;
+  color: var(--text-accent);
+}
+
+.task-manager-table td.link:hover {
+  text-decoration: underline;
+}
+
+/* Active heading level cell */
+.task-manager-table td.current-level {
+  cursor: pointer;
+}

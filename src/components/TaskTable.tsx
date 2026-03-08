@@ -6,6 +6,26 @@ interface TaskTableProps {
   onOpenLink?: (file: string, heading: string) => void;
 }
 
+// Inline Lucide-style file-text SVG icon
+const FileIcon: React.FC = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    aria-hidden="true"
+  >
+    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+    <polyline points="14 2 14 8 20 8" />
+    <line x1="16" y1="13" x2="8" y2="13" />
+    <line x1="16" y1="17" x2="8" y2="17" />
+    <polyline points="10 9 9 9 8 9" />
+  </svg>
+);
+
 const TaskRow = React.memo(({ task, onOpenLink }: { task: HeadingTask, onOpenLink?: (file: string, heading: string) => void }) => {
   const handleLinkClick = (file: string, heading: string) => {
     if (onOpenLink) {
@@ -13,15 +33,32 @@ const TaskRow = React.memo(({ task, onOpenLink }: { task: HeadingTask, onOpenLin
     }
   };
 
+  const renderCell = (level: number, value: string | null) => {
+    const isActive = task.level === level;
+    return (
+      <td
+        className={isActive ? 'current-level link' : ''}
+        onClick={() => isActive && handleLinkClick(task.file, value || '')}
+      >
+        {isActive && value ? <span className="level-pill">{value}</span> : value}
+      </td>
+    );
+  };
+
   return (
     <tr>
-      <td className="link" onClick={() => handleLinkClick(task.file, '')}>{task.file}</td>
-      <td className={task.level === 1 ? 'current-level link' : ''} onClick={() => task.level === 1 && handleLinkClick(task.file, task.h1 || '')}>{task.h1}</td>
-      <td className={task.level === 2 ? 'current-level link' : ''} onClick={() => task.level === 2 && handleLinkClick(task.file, task.h2 || '')}>{task.h2}</td>
-      <td className={task.level === 3 ? 'current-level link' : ''} onClick={() => task.level === 3 && handleLinkClick(task.file, task.h3 || '')}>{task.h3}</td>
-      <td className={task.level === 4 ? 'current-level link' : ''} onClick={() => task.level === 4 && handleLinkClick(task.file, task.h4 || '')}>{task.h4}</td>
-      <td className={task.level === 5 ? 'current-level link' : ''} onClick={() => task.level === 5 && handleLinkClick(task.file, task.h5 || '')}>{task.h5}</td>
-      <td className={task.level === 6 ? 'current-level link' : ''} onClick={() => task.level === 6 && handleLinkClick(task.file, task.h6 || '')}>{task.h6}</td>
+      <td className="link" onClick={() => handleLinkClick(task.file, '')}>
+        <span className="file-icon-wrapper">
+          <FileIcon />
+          {task.file}
+        </span>
+      </td>
+      {renderCell(1, task.h1)}
+      {renderCell(2, task.h2)}
+      {renderCell(3, task.h3)}
+      {renderCell(4, task.h4)}
+      {renderCell(5, task.h5)}
+      {renderCell(6, task.h6)}
     </tr>
   );
 });

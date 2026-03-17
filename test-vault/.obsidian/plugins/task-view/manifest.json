@@ -1,0 +1,9 @@
+{
+  "id": "task-view",
+  "name": "Task View",
+  "version": "1.0.0",
+  "minAppVersion": "1.1.0",
+  "description": "A task management and viewing plugin for Obsidian.",
+  "author": "Guid",
+  "isDesktopOnly": false
+}

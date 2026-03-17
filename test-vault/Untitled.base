@@ -1,0 +1,9 @@
+views:
+  - type: table
+    name: Table
+  - type: table
+    name: View
+  - type: table
+    name: View 2
+  - type: task-table
+    name: View 3

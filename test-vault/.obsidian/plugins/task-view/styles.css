@@ -1,0 +1,125 @@
+/* ============================================================
+   Task Manager Plugin — Notion-style table UI
+   All rules are scoped under .task-manager-table to prevent
+   conflicts with other Obsidian themes or plugins.
+   ============================================================ */
+
+/* Phase 2: Enhanced padding & row spacing */
+.task-manager-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95em;
+}
+
+.task-manager-table tr {
+  border-bottom: 1px solid var(--background-modifier-border);
+}
+
+.task-manager-table td {
+  padding: 8px 12px;
+  line-height: 1.5;
+  vertical-align: middle;
+}
+
+/* File icon wrapper — flex row for icon + filename */
+.file-icon-wrapper {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.file-icon-wrapper svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  color: var(--text-muted);
+}
+
+/* Phase 3: Pill badge for the active heading level */
+.level-pill {
+  display: inline-block;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background-color: var(--background-modifier-accent);
+  font-size: 0.85em;
+  color: var(--text-normal);
+}
+
+/* Phase 4: Structured header with subtle column dividers */
+.task-manager-table thead th {
+  padding: 8px 12px;
+  text-transform: capitalize;
+  color: var(--text-muted);
+  font-weight: 500;
+  text-align: left;
+  border-right: 1px solid var(--background-modifier-border);
+  border-bottom: 2px solid var(--background-modifier-border);
+}
+
+.task-manager-table thead th:last-child {
+  border-right: none;
+}
+
+/* Phase 4 (Bonus): Interactive row hover */
+.task-manager-table tbody tr:hover {
+  background-color: var(--background-modifier-hover);
+}
+
+/* Clickable cell styles */
+.task-manager-table td.link {
+  cursor: pointer;
+  color: var(--text-accent);
+}
+
+.task-manager-table td.link:hover {
+  text-decoration: underline;
+}
+
+/* Active heading level cell */
+.task-manager-table td.current-level {
+  cursor: pointer;
+}
+
+/* Cell content layout for title + tags */
+.cell-content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: flex-start;
+}
+
+/* Tag container — flex wrap for multiple tags */
+.tag-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+/* Notion-style Tag Pill */
+.task-manager-table .tag-pill {
+  display: inline-block;
+  padding: 1px 6px;
+  border-radius: 3px;
+  font-size: 0.75em;
+  font-weight: 500;
+  background-color: #f0f0ff; /* Subtle light purple background */
+  color: #666666 !important; /* Grey text with override */
+  border: 1px solid #e0e0f0;
+  white-space: nowrap;
+  text-decoration: none !important;
+  line-height: 1.4;
+}
+
+/* Plain text tags for non-active heading levels */
+.task-manager-table .heading-tag {
+  font-size: 0.75em;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+/* Optional: hover effect for tags if needed */
+.task-manager-table .tag-pill:hover {
+  background-color: #e5e5ff;
+  color: #333333 !important;
+  text-decoration: none !important;
+}

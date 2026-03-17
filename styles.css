@@ -79,3 +79,47 @@
 .task-manager-table td.current-level {
   cursor: pointer;
 }
+
+/* Cell content layout for title + tags */
+.cell-content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: flex-start;
+}
+
+/* Tag container — flex wrap for multiple tags */
+.tag-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+/* Notion-style Tag Pill */
+.task-manager-table .tag-pill {
+  display: inline-block;
+  padding: 1px 6px;
+  border-radius: 3px;
+  font-size: 0.75em;
+  font-weight: 500;
+  background-color: #f0f0ff; /* Subtle light purple background */
+  color: #666666 !important; /* Grey text with override */
+  border: 1px solid #e0e0f0;
+  white-space: nowrap;
+  text-decoration: none !important;
+  line-height: 1.4;
+}
+
+/* Plain text tags for non-active heading levels */
+.task-manager-table .heading-tag {
+  font-size: 0.75em;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+/* Optional: hover effect for tags if needed */
+.task-manager-table .tag-pill:hover {
+  background-color: #e5e5ff;
+  color: #333333 !important;
+  text-decoration: none !important;
+}

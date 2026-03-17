@@ -1,20 +1,22 @@
+export interface HeadingLevel {
+  text: string | null;
+  tags: string[];
+}
+
 export interface HeadingTask {
   /** The file containing the heading. */
   file: string;
-  /** The text of the H1 parent. */
-  h1: string | null;
-  /** The text of the H2 parent. */
-  h2: string | null;
-  /** The text of the H3 parent. */
-  h3: string | null;
-  /** The text of the H4 parent. */
-  h4: string | null;
-  /** The text of the H5 parent. */
-  h5: string | null;
-  /** The text of the H6 parent. */
-  h6: string | null;
+  /** Heading levels 1-6. */
+  h1: HeadingLevel;
+  h2: HeadingLevel;
+  h3: HeadingLevel;
+  h4: HeadingLevel;
+  h5: HeadingLevel;
+  h6: HeadingLevel;
   /** The level of the current heading (1-6). */
   level: number;
-  /** The text of the current heading itself. */
+  /** The text of the current heading itself (cleaned). */
   text: string;
+  /** The tags of the current heading. */
+  tags: string[];
 }

@@ -80,7 +80,7 @@ export class TaskBasesView extends BasesView {
         const file = entry.file;
         const cache = app.metadataCache.getFileCache(file);
         if (cache && cache.headings) {
-          const fileTasks = mapHeadingsToTasks(file.name, cache.headings);
+          const fileTasks = mapHeadingsToTasks(file.name, cache.headings, cache.tags || []);
           allTasks.push(...fileTasks);
         }
       }

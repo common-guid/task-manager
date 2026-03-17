@@ -1,5 +1,5 @@
 import React from 'react';
-import { HeadingTask } from '../types';
+import { HeadingTask, HeadingLevel } from '../types';
 
 interface TaskTableProps {
   tasks: HeadingTask[];
@@ -26,6 +26,10 @@ const FileIcon: React.FC = () => (
   </svg>
 );
 
+const TagPill: React.FC<{ tag: string }> = ({ tag }) => (
+  <span className="tag-pill">{tag}</span>
+);
+
 const TaskRow = React.memo(({ task, onOpenLink }: { task: HeadingTask, onOpenLink?: (file: string, heading: string) => void }) => {
   const handleLinkClick = (file: string, heading: string) => {
     if (onOpenLink) {
@@ -33,14 +37,33 @@ const TaskRow = React.memo(({ task, onOpenLink }: { task: HeadingTask, onOpenLin
     }
   };
 
-  const renderCell = (level: number, value: string | null) => {
+  const renderCell = (level: number, value: HeadingLevel) => {
     const isActive = task.level === level;
+    if (!value.text && value.tags.length === 0) return <td></td>;
+
     return (
       <td
         className={isActive ? 'current-level link' : ''}
-        onClick={() => isActive && handleLinkClick(task.file, value || '')}
+        onClick={() => isActive && handleLinkClick(task.file, value.text || '')}
       >
-        {isActive && value ? <span className="level-pill">{value}</span> : value}
+        <div className="cell-content">
+          {isActive ? (
+            <span className="level-pill">{value.text}</span>
+          ) : (
+            <span className="heading-text">{value.text}</span>
+          )}
+          {value.tags.length > 0 && (
+            <div className="tag-container">
+              {value.tags.map((tag, idx) => (
+                isActive ? (
+                  <TagPill key={idx} tag={tag} />
+                ) : (
+                  <span key={idx} className="heading-tag">{tag}</span>
+                )
+              ))}
+            </div>
+          )}
+        </div>
       </td>
     );
   };

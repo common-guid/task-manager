@@ -9,3 +9,6 @@ Resolved a startup race condition where Obsidian's deferred-view system could re
 
 ## Notion-Style Task Manager UI Upgrade | 2026-03-08
 Implemented a Notion-style visual overhaul for `TaskTable.tsx` across four phases: created a scoped `styles.css` with Obsidian CSS variables for enhanced row padding, column dividers, and hover effects; added an inline Lucide-style `FileIcon` SVG with a `.file-icon-wrapper` flex container in the file cell; wrapped active heading-level text in `.level-pill` badge spans; and updated the test suite to validate the new DOM structure (pill class on active spans, file icon wrapper presence).
+
+## Notion-Style Tag Pills | 2026-03-16
+Implemented Notion-style tag pills within the Task Manager table. Tags are automatically correlated with their immediate parent heading based on file position, preventing "bubbling up" to higher-level parents. Updated the data model, mapping logic, and React components to support this structured display; added CSS for `.tag-pill` (subtle purple background with grey text) and `.heading-tag` (plain text for parent levels). Automated tests validate that only the active level's tags are rendered as pills and that tags are correctly scoped to their immediate section.

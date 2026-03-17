@@ -81,9 +81,10 @@ describe('TaskBasesView', () => {
       metadataCache: {
         getFileCache: vi.fn().mockReturnValue({
           headings: [
-            { heading: 'Task 1', level: 1 },
-            { heading: 'Task 2', level: 2 },
-          ]
+            { heading: 'Task 1', level: 1, position: { start: { line: 0 } } },
+            { heading: 'Task 2', level: 2, position: { start: { line: 5 } } },
+          ],
+          tags: []
         })
       }
     };
@@ -106,8 +107,8 @@ describe('TaskBasesView', () => {
     expect(spy).toHaveBeenCalled();
     const result = spy.mock.results[0].value;
     expect(result).toHaveLength(2);
-    expect(result[0].h1).toBe('Task 1');
-    expect(result[1].h2).toBe('Task 2');
+    expect(result[0].h1.text).toBe('Task 1');
+    expect(result[1].h2.text).toBe('Task 2');
   });
 
   it('should return empty array if data is missing', () => {

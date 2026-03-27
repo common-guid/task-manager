@@ -1,46 +1,68 @@
 /* ============================================================
    Task Manager Plugin — Notion-style table UI
-   All rules are scoped under .task-manager-table to prevent
+   All rules are scoped under .tm-table to prevent
    conflicts with other Obsidian themes or plugins.
    ============================================================ */
 
-/* Phase 2: Enhanced padding & row spacing */
-.task-manager-table {
+.tm-container {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.tm-table {
   width: 100%;
   border-collapse: collapse;
   font-size: 0.95em;
+  table-layout: auto;
 }
 
-.task-manager-table tr {
+.tm-table tr.tm-row {
   border-bottom: 1px solid var(--background-modifier-border);
 }
 
-.task-manager-table td {
+.tm-table td {
   padding: 8px 12px;
   line-height: 1.5;
   vertical-align: middle;
 }
 
+/* File column specific styling */
+.tm-file-cell {
+  white-space: nowrap;
+  min-width: 150px;
+}
+
 /* File icon wrapper — flex row for icon + filename */
-.file-icon-wrapper {
+.tm-file-icon-wrapper {
   display: inline-flex;
   align-items: center;
   gap: 8px;
+  vertical-align: middle;
 }
 
-.file-icon-wrapper .file-icon,
-.file-icon-wrapper .toggle-button {
-  width: 16px;
-  height: 16px;
-  flex-shrink: 0;
+/* Ensure both icons and buttons have identical footprint */
+.tm-file-icon,
+.tm-toggle {
+  width: 16px !important;
+  height: 16px !important;
+  min-width: 16px !important;
+  min-height: 16px !important;
+  flex-shrink: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
 }
 
-.file-icon-wrapper .file-icon {
+.tm-file-icon {
   color: var(--text-muted);
 }
 
-/* Phase 3: Pill badge for the active heading level */
-.level-pill {
+.tm-file-name {
+  color: var(--text-muted);
+  font-size: 0.9em;
+}
+
+/* Pill badge for the active heading level */
+.tm-level-pill {
   display: inline-block;
   padding: 2px 6px;
   border-radius: 4px;
@@ -49,8 +71,8 @@
   color: var(--text-normal);
 }
 
-/* Phase 4: Structured header with subtle column dividers */
-.task-manager-table thead th {
+/* Structured header with subtle column dividers */
+.tm-table thead th {
   padding: 8px 12px;
   text-transform: capitalize;
   color: var(--text-muted);
@@ -60,39 +82,39 @@
   border-bottom: 2px solid var(--background-modifier-border);
 }
 
-.task-manager-table thead th:last-child {
+.tm-table thead th:last-child {
   border-right: none;
 }
 
-/* Phase 4 (Bonus): Interactive row hover */
-.task-manager-table tbody tr:hover {
+/* Interactive row hover */
+.tm-table tbody tr:hover {
   background-color: var(--background-modifier-hover);
 }
 
 /* Clickable cell styles */
-.task-manager-table td.link {
+.tm-table td.tm-link {
   cursor: pointer;
   color: var(--text-accent);
 }
 
-.task-manager-table td.link:hover {
+.tm-table td.tm-link:hover {
   text-decoration: underline;
 }
 
 /* Active heading level cell */
-.task-manager-table td.current-level {
+.tm-table td.tm-current-level {
   cursor: pointer;
 }
 
 /* Cell content layout for title + tags */
-.cell-content {
+.tm-cell-content {
   display: flex;
   flex-direction: column;
   gap: 4px;
   align-items: flex-start;
 }
 
-.title-row {
+.tm-title-row {
   display: flex;
   align-items: center;
   gap: 4px;
@@ -100,44 +122,43 @@
 }
 
 /* Toggle button styling */
-.toggle-button {
-  background: transparent;
-  border: none;
-  padding: 0;
-  margin: 0;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--text-muted);
-  border-radius: 4px;
+.tm-toggle {
+  background: transparent !important;
+  border: none !important;
+  cursor: pointer !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  color: var(--text-muted) !important;
+  border-radius: 4px !important;
+  box-shadow: none !important;
 }
 
-.toggle-button:hover {
-  background-color: var(--background-modifier-hover);
-  color: var(--text-normal);
+.tm-toggle:hover {
+  background-color: var(--background-modifier-hover) !important;
+  color: var(--text-normal) !important;
 }
 
-.chevron-icon {
-  width: 100%;
-  height: 100%;
+.tm-chevron-icon {
+  width: 100% !important;
+  height: 100% !important;
   transition: transform 0.2s ease;
   transform: rotate(0deg);
 }
 
-.chevron-icon.collapsed {
+.tm-chevron-icon.collapsed {
   transform: rotate(-90deg);
 }
 
 /* Tag container — flex wrap for multiple tags */
-.tag-container {
+.tm-tag-container {
   display: flex;
   flex-wrap: wrap;
   gap: 4px;
 }
 
 /* Notion-style Tag Pill */
-.task-manager-table .tag-pill {
+.tm-table .tm-tag-pill {
   display: inline-block;
   padding: 1px 6px;
   border-radius: 3px;
@@ -152,14 +173,14 @@
 }
 
 /* Plain text tags for non-active heading levels */
-.task-manager-table .heading-tag {
+.tm-table .tm-heading-tag {
   font-size: 0.75em;
   color: var(--text-muted);
   white-space: nowrap;
 }
 
 /* Optional: hover effect for tags if needed */
-.task-manager-table .tag-pill:hover {
+.tm-table .tm-tag-pill:hover {
   background-color: #e5e5ff;
   color: #333333 !important;
   text-decoration: none !important;

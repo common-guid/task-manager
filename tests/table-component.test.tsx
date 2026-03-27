@@ -38,10 +38,10 @@ describe('TaskTable Component', () => {
     expect(screen.getByText('Task A')).toBeInTheDocument();
     
     // 'urgent' is in H1, but this row's active level is H2.
-    // So 'urgent' should be a .heading-tag, not a .tag-pill.
+    // So 'urgent' should be a .tm-heading-tag, not a .tm-tag-pill.
     const urgentTag = screen.getByText('urgent');
-    expect(urgentTag).toHaveClass('heading-tag');
-    expect(urgentTag).not.toHaveClass('tag-pill');
+    expect(urgentTag).toHaveClass('tm-heading-tag');
+    expect(urgentTag).not.toHaveClass('tm-tag-pill');
   });
 
   it('should render active level tags as pills', () => {
@@ -55,8 +55,8 @@ describe('TaskTable Component', () => {
     render(<TaskTable tasks={activeTasks} />);
     
     const activeTag = screen.getByText('active-tag');
-    expect(activeTag).toHaveClass('tag-pill');
-    expect(activeTag).not.toHaveClass('heading-tag');
+    expect(activeTag).toHaveClass('tm-tag-pill');
+    expect(activeTag).not.toHaveClass('tm-heading-tag');
   });
 
   it('should call onOpenLink when a link is clicked', () => {
@@ -95,7 +95,7 @@ describe('TaskTable Component', () => {
     [1, 2, 3, 4, 5, 6].forEach(level => {
       const headingText = `H${level}`;
       const pill = screen.getByText(headingText);
-      expect(pill).toHaveClass('level-pill');
+      expect(pill).toHaveClass('tm-level-pill');
       pill.click();
       expect(onOpenLink).toHaveBeenCalledWith(`file${level}.md`, headingText);
     });

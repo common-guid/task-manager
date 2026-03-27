@@ -17,7 +17,8 @@ const FileIcon: React.FC = () => (
     strokeLinecap="round"
     strokeLinejoin="round"
     aria-hidden="true"
-    className="file-icon"
+    className="tm-file-icon"
+    style={{ width: '16px', height: '16px', minWidth: '16px', flexShrink: 0 }}
   >
     <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
     <polyline points="14 2 14 8 20 8" />
@@ -28,7 +29,11 @@ const FileIcon: React.FC = () => (
 );
 
 const Chevron: React.FC<{ isCollapsed: boolean, onClick: (e: React.MouseEvent) => void }> = ({ isCollapsed, onClick }) => (
-  <button className="toggle-button" onClick={onClick}>
+  <button 
+    className="tm-toggle" 
+    onClick={onClick}
+    style={{ width: '16px', height: '16px', minWidth: '16px', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 0 }}
+  >
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 24 24"
@@ -37,7 +42,8 @@ const Chevron: React.FC<{ isCollapsed: boolean, onClick: (e: React.MouseEvent) =
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
-      className={`chevron-icon ${isCollapsed ? 'collapsed' : ''}`}
+      className={`tm-chevron-icon ${isCollapsed ? 'collapsed' : ''}`}
+      style={{ width: '100%', height: '100%', pointerEvents: 'none' }}
     >
       <polyline points="6 9 12 15 18 9" />
     </svg>
@@ -45,7 +51,7 @@ const Chevron: React.FC<{ isCollapsed: boolean, onClick: (e: React.MouseEvent) =
 );
 
 const TagPill: React.FC<{ tag: string }> = ({ tag }) => (
-  <span className="tag-pill">{tag}</span>
+  <span className="tm-tag-pill">{tag}</span>
 );
 
 const TaskRow = React.memo(({ task, onOpenLink, isCollapsed, onToggle }: { 
@@ -66,24 +72,24 @@ const TaskRow = React.memo(({ task, onOpenLink, isCollapsed, onToggle }: {
 
     return (
       <td
-        className={isActive ? 'current-level link' : ''}
+        className={isActive ? 'tm-current-level tm-link' : ''}
         onClick={() => isActive && handleLinkClick(task.file, value.text || '')}
       >
-        <div className="cell-content">
-          <div className="title-row">
+        <div className="tm-cell-content">
+          <div className="tm-title-row">
             {isActive ? (
-              <span className="level-pill">{value.text}</span>
+              <span className="tm-level-pill">{value.text}</span>
             ) : (
-              <span className="heading-text">{value.text}</span>
+              <span className="tm-heading-text">{value.text}</span>
             )}
           </div>
           {value.tags.length > 0 && (
-            <div className="tag-container">
+            <div className="tm-tag-container">
               {value.tags.map((tag, idx) => (
                 isActive ? (
                   <TagPill key={idx} tag={tag} />
                 ) : (
-                  <span key={idx} className="heading-tag">{tag}</span>
+                  <span key={idx} className="tm-heading-tag">{tag}</span>
                 )
               ))}
             </div>
@@ -94,13 +100,13 @@ const TaskRow = React.memo(({ task, onOpenLink, isCollapsed, onToggle }: {
   };
 
   return (
-    <tr>
-      <td className="link" onClick={(e) => {
+    <tr className="tm-row">
+      <td className="tm-link tm-file-cell" onClick={(e) => {
         // Prevent opening link if clicking the toggle button
-        if ((e.target as HTMLElement).closest('.toggle-button')) return;
+        if ((e.target as HTMLElement).closest('.tm-toggle')) return;
         handleLinkClick(task.file, '');
       }}>
-        <span className="file-icon-wrapper">
+        <span className="tm-file-icon-wrapper">
           {task.hasChildren ? (
             <Chevron isCollapsed={isCollapsed} onClick={(e) => {
               e.stopPropagation();
@@ -109,7 +115,7 @@ const TaskRow = React.memo(({ task, onOpenLink, isCollapsed, onToggle }: {
           ) : (
             <FileIcon />
           )}
-          <span className="file-name">{task.file}</span>
+          <span className="tm-file-name">{task.file}</span>
         </span>
       </td>
       {renderCell(1, task.h1)}
@@ -151,29 +157,31 @@ export const TaskTable: React.FC<TaskTableProps> = ({ tasks, onOpenLink }) => {
   }, [tasks, collapsedIds]);
 
   return (
-    <table className="task-manager-table">
-      <thead>
-        <tr>
-          <th>file</th>
-          <th>h1</th>
-          <th>h2</th>
-          <th>h3</th>
-          <th>h4</th>
-          <th>h5</th>
-          <th>h6</th>
-        </tr>
-      </thead>
-      <tbody>
-        {filteredTasks.map((task, index) => (
-          <TaskRow 
-            key={`${task.file}-${task.level}-${task.text}-${index}`} 
-            task={task} 
-            onOpenLink={onOpenLink}
-            isCollapsed={collapsedIds.has(task.id)}
-            onToggle={handleToggle}
-          />
-        ))}
-      </tbody>
-    </table>
+    <div className="tm-container">
+      <table className="tm-table">
+        <thead>
+          <tr>
+            <th>file</th>
+            <th>h1</th>
+            <th>h2</th>
+            <th>h3</th>
+            <th>h4</th>
+            <th>h5</th>
+            <th>h6</th>
+          </tr>
+        </thead>
+        <tbody>
+          {filteredTasks.map((task, index) => (
+            <TaskRow 
+              key={`${task.file}-${task.level}-${task.text}-${index}`} 
+              task={task} 
+              onOpenLink={onOpenLink}
+              isCollapsed={collapsedIds.has(task.id)}
+              onToggle={handleToggle}
+            />
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
 };

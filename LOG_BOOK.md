@@ -15,3 +15,6 @@ Implemented Notion-style tag pills within the Task Manager table. Tags are autom
 
 ## Move Toggle to File Column | 2026-03-25
 Refined the Tree Table UI by moving the hierarchical toggle from the heading cells to the first column (File column). Replaced the file icon with a chevron toggle for parent rows to maintain a clean layout in content columns. Updated styling to ensure identical 16x16px dimensions and vertical alignment between the toggle and file icons. Updated the test suite to verify the new toggle location and confirmed that heading columns no longer contain toggle logic. Manual verification in Obsidian is required to confirm pixel-perfect alignment.
+
+## Fix: Styling Conflicts and Icon Sizing | 2026-03-25
+Resolved issues where Obsidian themes or other plugins (like "Bases") were causing styling conflicts, leading to giant icons and unintended UI elements. Switched to unique `tm-` prefixed class names for all components to prevent namespace collisions. Implemented inline styles for SVG icon and button dimensions to ensure a consistent 16x16px footprint that overrides global theme CSS. Updated `styles.css` with higher-specificity rules and `!important` flags for critical layout properties. These changes ensure the Notion-style UI remains stable regardless of the user's active theme or environment.

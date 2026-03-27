@@ -43,21 +43,20 @@ describe('TaskTable Component Hierarchy', () => {
     // Find the 'test.md' cell (file column)
     const fileCells = screen.getAllByText('test.md');
     // The first row has children, the second doesn't.
-    // In our test data, both tasks are in 'test.md'.
     
     const firstRowFileCell = fileCells[0].closest('td');
-    expect(firstRowFileCell?.querySelector('.toggle-button')).toBeInTheDocument();
-    expect(firstRowFileCell?.querySelector('.file-icon')).not.toBeInTheDocument();
+    expect(firstRowFileCell?.querySelector('.tm-toggle')).toBeInTheDocument();
+    expect(firstRowFileCell?.querySelector('.tm-file-icon')).not.toBeInTheDocument();
 
     const secondRowFileCell = fileCells[1].closest('td');
-    expect(secondRowFileCell?.querySelector('.toggle-button')).not.toBeInTheDocument();
-    expect(secondRowFileCell?.querySelector('.file-icon')).toBeInTheDocument();
+    expect(secondRowFileCell?.querySelector('.tm-toggle')).not.toBeInTheDocument();
+    expect(secondRowFileCell?.querySelector('.tm-file-icon')).toBeInTheDocument();
 
     // Verify heading columns do not have toggle buttons
     const projectPills = screen.getAllByText('Project');
-    const primaryProjectPill = projectPills.find(el => el.classList.contains('level-pill'));
-    const projectCell = primaryProjectPill?.closest('.cell-content');
-    expect(projectCell?.querySelector('.toggle-button')).not.toBeInTheDocument();
+    const primaryProjectPill = projectPills.find(el => el.classList.contains('tm-level-pill'));
+    const projectCell = primaryProjectPill?.closest('.tm-cell-content');
+    expect(projectCell?.querySelector('.tm-toggle')).not.toBeInTheDocument();
   });
 
   it('should collapse children when toggle is clicked', () => {

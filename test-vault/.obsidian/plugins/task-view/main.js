@@ -21548,7 +21548,8 @@ var FileIcon = () => /* @__PURE__ */ import_react.default.createElement(
     strokeLinecap: "round",
     strokeLinejoin: "round",
     "aria-hidden": "true",
-    className: "file-icon"
+    className: "tm-file-icon",
+    style: { width: "16px", height: "16px", minWidth: "16px", flexShrink: 0 }
   },
   /* @__PURE__ */ import_react.default.createElement("path", { d: "M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" }),
   /* @__PURE__ */ import_react.default.createElement("polyline", { points: "14 2 14 8 20 8" }),
@@ -21556,21 +21557,30 @@ var FileIcon = () => /* @__PURE__ */ import_react.default.createElement(
   /* @__PURE__ */ import_react.default.createElement("line", { x1: "16", y1: "17", x2: "8", y2: "17" }),
   /* @__PURE__ */ import_react.default.createElement("polyline", { points: "10 9 9 9 8 9" })
 );
-var Chevron = ({ isCollapsed, onClick }) => /* @__PURE__ */ import_react.default.createElement("button", { className: "toggle-button", onClick }, /* @__PURE__ */ import_react.default.createElement(
-  "svg",
+var Chevron = ({ isCollapsed, onClick }) => /* @__PURE__ */ import_react.default.createElement(
+  "button",
   {
-    xmlns: "http://www.w3.org/2000/svg",
-    viewBox: "0 0 24 24",
-    fill: "none",
-    stroke: "currentColor",
-    strokeWidth: "2",
-    strokeLinecap: "round",
-    strokeLinejoin: "round",
-    className: `chevron-icon ${isCollapsed ? "collapsed" : ""}`
+    className: "tm-toggle",
+    onClick,
+    style: { width: "16px", height: "16px", minWidth: "16px", display: "flex", alignItems: "center", justifyContent: "center", padding: 0 }
   },
-  /* @__PURE__ */ import_react.default.createElement("polyline", { points: "6 9 12 15 18 9" })
-));
-var TagPill = ({ tag }) => /* @__PURE__ */ import_react.default.createElement("span", { className: "tag-pill" }, tag);
+  /* @__PURE__ */ import_react.default.createElement(
+    "svg",
+    {
+      xmlns: "http://www.w3.org/2000/svg",
+      viewBox: "0 0 24 24",
+      fill: "none",
+      stroke: "currentColor",
+      strokeWidth: "2",
+      strokeLinecap: "round",
+      strokeLinejoin: "round",
+      className: `tm-chevron-icon ${isCollapsed ? "collapsed" : ""}`,
+      style: { width: "100%", height: "100%", pointerEvents: "none" }
+    },
+    /* @__PURE__ */ import_react.default.createElement("polyline", { points: "6 9 12 15 18 9" })
+  )
+);
+var TagPill = ({ tag }) => /* @__PURE__ */ import_react.default.createElement("span", { className: "tm-tag-pill" }, tag);
 var TaskRow = import_react.default.memo(({ task, onOpenLink, isCollapsed, onToggle }) => {
   const handleLinkClick = (file, heading) => {
     if (onOpenLink) {
@@ -21583,19 +21593,19 @@ var TaskRow = import_react.default.memo(({ task, onOpenLink, isCollapsed, onTogg
     return /* @__PURE__ */ import_react.default.createElement(
       "td",
       {
-        className: isActive ? "current-level link" : "",
+        className: isActive ? "tm-current-level tm-link" : "",
         onClick: () => isActive && handleLinkClick(task.file, value.text || "")
       },
-      /* @__PURE__ */ import_react.default.createElement("div", { className: "cell-content" }, /* @__PURE__ */ import_react.default.createElement("div", { className: "title-row" }, isActive ? /* @__PURE__ */ import_react.default.createElement("span", { className: "level-pill" }, value.text) : /* @__PURE__ */ import_react.default.createElement("span", { className: "heading-text" }, value.text)), value.tags.length > 0 && /* @__PURE__ */ import_react.default.createElement("div", { className: "tag-container" }, value.tags.map((tag, idx) => isActive ? /* @__PURE__ */ import_react.default.createElement(TagPill, { key: idx, tag }) : /* @__PURE__ */ import_react.default.createElement("span", { key: idx, className: "heading-tag" }, tag))))
+      /* @__PURE__ */ import_react.default.createElement("div", { className: "tm-cell-content" }, /* @__PURE__ */ import_react.default.createElement("div", { className: "tm-title-row" }, isActive ? /* @__PURE__ */ import_react.default.createElement("span", { className: "tm-level-pill" }, value.text) : /* @__PURE__ */ import_react.default.createElement("span", { className: "tm-heading-text" }, value.text)), value.tags.length > 0 && /* @__PURE__ */ import_react.default.createElement("div", { className: "tm-tag-container" }, value.tags.map((tag, idx) => isActive ? /* @__PURE__ */ import_react.default.createElement(TagPill, { key: idx, tag }) : /* @__PURE__ */ import_react.default.createElement("span", { key: idx, className: "tm-heading-tag" }, tag))))
     );
   };
-  return /* @__PURE__ */ import_react.default.createElement("tr", null, /* @__PURE__ */ import_react.default.createElement("td", { className: "link", onClick: (e) => {
-    if (e.target.closest(".toggle-button")) return;
+  return /* @__PURE__ */ import_react.default.createElement("tr", { className: "tm-row" }, /* @__PURE__ */ import_react.default.createElement("td", { className: "tm-link tm-file-cell", onClick: (e) => {
+    if (e.target.closest(".tm-toggle")) return;
     handleLinkClick(task.file, "");
-  } }, /* @__PURE__ */ import_react.default.createElement("span", { className: "file-icon-wrapper" }, task.hasChildren ? /* @__PURE__ */ import_react.default.createElement(Chevron, { isCollapsed, onClick: (e) => {
+  } }, /* @__PURE__ */ import_react.default.createElement("span", { className: "tm-file-icon-wrapper" }, task.hasChildren ? /* @__PURE__ */ import_react.default.createElement(Chevron, { isCollapsed, onClick: (e) => {
     e.stopPropagation();
     onToggle(task.id);
-  } }) : /* @__PURE__ */ import_react.default.createElement(FileIcon, null), /* @__PURE__ */ import_react.default.createElement("span", { className: "file-name" }, task.file))), renderCell(1, task.h1), renderCell(2, task.h2), renderCell(3, task.h3), renderCell(4, task.h4), renderCell(5, task.h5), renderCell(6, task.h6));
+  } }) : /* @__PURE__ */ import_react.default.createElement(FileIcon, null), /* @__PURE__ */ import_react.default.createElement("span", { className: "tm-file-name" }, task.file))), renderCell(1, task.h1), renderCell(2, task.h2), renderCell(3, task.h3), renderCell(4, task.h4), renderCell(5, task.h5), renderCell(6, task.h6));
 });
 var TaskTable = ({ tasks, onOpenLink }) => {
   const [collapsedIds, setCollapsedIds] = (0, import_react.useState)(/* @__PURE__ */ new Set());
@@ -21621,7 +21631,7 @@ var TaskTable = ({ tasks, onOpenLink }) => {
       return true;
     });
   }, [tasks, collapsedIds]);
-  return /* @__PURE__ */ import_react.default.createElement("table", { className: "task-manager-table" }, /* @__PURE__ */ import_react.default.createElement("thead", null, /* @__PURE__ */ import_react.default.createElement("tr", null, /* @__PURE__ */ import_react.default.createElement("th", null, "file"), /* @__PURE__ */ import_react.default.createElement("th", null, "h1"), /* @__PURE__ */ import_react.default.createElement("th", null, "h2"), /* @__PURE__ */ import_react.default.createElement("th", null, "h3"), /* @__PURE__ */ import_react.default.createElement("th", null, "h4"), /* @__PURE__ */ import_react.default.createElement("th", null, "h5"), /* @__PURE__ */ import_react.default.createElement("th", null, "h6"))), /* @__PURE__ */ import_react.default.createElement("tbody", null, filteredTasks.map((task, index) => /* @__PURE__ */ import_react.default.createElement(
+  return /* @__PURE__ */ import_react.default.createElement("div", { className: "tm-container" }, /* @__PURE__ */ import_react.default.createElement("table", { className: "tm-table" }, /* @__PURE__ */ import_react.default.createElement("thead", null, /* @__PURE__ */ import_react.default.createElement("tr", null, /* @__PURE__ */ import_react.default.createElement("th", null, "file"), /* @__PURE__ */ import_react.default.createElement("th", null, "h1"), /* @__PURE__ */ import_react.default.createElement("th", null, "h2"), /* @__PURE__ */ import_react.default.createElement("th", null, "h3"), /* @__PURE__ */ import_react.default.createElement("th", null, "h4"), /* @__PURE__ */ import_react.default.createElement("th", null, "h5"), /* @__PURE__ */ import_react.default.createElement("th", null, "h6"))), /* @__PURE__ */ import_react.default.createElement("tbody", null, filteredTasks.map((task, index) => /* @__PURE__ */ import_react.default.createElement(
     TaskRow,
     {
       key: `${task.file}-${task.level}-${task.text}-${index}`,
@@ -21630,7 +21640,7 @@ var TaskTable = ({ tasks, onOpenLink }) => {
       isCollapsed: collapsedIds.has(task.id),
       onToggle: handleToggle
     }
-  ))));
+  )))));
 };
 
 // src/main.ts

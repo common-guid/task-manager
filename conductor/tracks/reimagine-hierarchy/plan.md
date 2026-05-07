@@ -15,7 +15,7 @@
 3.  [x] **Update CSS**:
     -   Adjust `tm-table` and `tm-row` classes to accommodate the new layout. 1479f46
 
-## Phase 3: Visual Verification
+## Phase 3: Visual Verification [checkpoint: 346e491]
 1.  [x] **Deploy for Capture**: Run `scripts/deploy.sh` to ensure the latest changes are in the sandbox environment. eddcc2c
 2.  [s] **Run Screenshot Script**:
     -   Use `scripts/sandbox/manage-obsidian.sh start` if needed.

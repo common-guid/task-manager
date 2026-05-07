@@ -26,7 +26,17 @@
   vertical-align: middle;
 }
 
-/* File column specific styling */
+/* File Header Row styling */
+.tm-file-header-row {
+  background-color: var(--background-secondary-alt);
+  border-bottom: 1px solid var(--background-modifier-border);
+}
+
+.tm-file-header-cell {
+  padding: 10px 12px !important;
+}
+
+/* File column specific styling (Legacy, kept for compatibility if needed) */
 .tm-file-cell {
   white-space: nowrap;
   min-width: 150px;
@@ -57,8 +67,9 @@
 }
 
 .tm-file-name {
-  color: var(--text-muted);
-  font-size: 0.9em;
+  color: var(--text-normal);
+  font-weight: 600;
+  font-size: 0.95em;
 }
 
 /* Pill badge for the active heading level */
@@ -66,12 +77,12 @@
   display: inline-block;
   padding: 2px 6px;
   border-radius: 4px;
-  background-color: var(--background-modifier-accent);
-  font-size: 0.85em;
+  /* background-color: var(--background-modifier-accent); */ /* Removing background to let font-size/weight lead */
+  font-size: 1em; /* Default, overridden by inline styles */
   color: var(--text-normal);
 }
 
-/* Structured header with thicker borders and larger bold font */
+/* Structured header (Legacy, kept for reference) */
 .tm-table thead th {
   padding: 10px 14px;
   text-transform: capitalize;
@@ -83,17 +94,17 @@
 }
 
 /* Interactive row hover */
-.tm-table tbody tr:hover {
+.tm-table tbody tr.tm-row:hover {
   background-color: var(--background-modifier-hover);
 }
 
 /* Clickable cell styles */
 .tm-table td.tm-link {
   cursor: pointer;
-  color: var(--text-accent);
 }
 
-.tm-table td.tm-link:hover {
+.tm-table td.tm-link:hover .tm-level-pill {
+  color: var(--text-accent);
   text-decoration: underline;
 }
 
@@ -113,7 +124,7 @@
 .tm-title-row {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 8px;
   width: 100%;
 }
 
@@ -160,9 +171,9 @@
   border-radius: 3px;
   font-size: 0.75em;
   font-weight: 500;
-  background-color: #f0f0ff; /* Subtle light purple background */
-  color: #666666 !important; /* Grey text with override */
-  border: 1px solid #e0e0f0;
+  background-color: var(--background-secondary);
+  color: var(--text-muted) !important;
+  border: 1px solid var(--background-modifier-border);
   white-space: nowrap;
   text-decoration: none !important;
   line-height: 1.4;
@@ -177,7 +188,7 @@
 
 /* Optional: hover effect for tags if needed */
 .tm-table .tm-tag-pill:hover {
-  background-color: #e5e5ff;
-  color: #333333 !important;
+  background-color: var(--background-modifier-hover);
+  color: var(--text-normal) !important;
   text-decoration: none !important;
 }

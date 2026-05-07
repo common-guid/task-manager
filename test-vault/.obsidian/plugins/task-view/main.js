@@ -21587,25 +21587,36 @@ var TaskRow = import_react.default.memo(({ task, onOpenLink, isCollapsed, onTogg
       onOpenLink(file, heading);
     }
   };
-  const renderCell = (level, value) => {
-    const isActive = task.level === level;
-    if (!value.text && value.tags.length === 0) return /* @__PURE__ */ import_react.default.createElement("td", null);
-    return /* @__PURE__ */ import_react.default.createElement(
-      "td",
-      {
-        className: isActive ? "tm-current-level tm-link" : "",
-        onClick: () => isActive && handleLinkClick(task.file, value.text || "")
-      },
-      /* @__PURE__ */ import_react.default.createElement("div", { className: "tm-cell-content" }, /* @__PURE__ */ import_react.default.createElement("div", { className: "tm-title-row" }, isActive ? /* @__PURE__ */ import_react.default.createElement("span", { className: "tm-level-pill" }, value.text) : /* @__PURE__ */ import_react.default.createElement("span", { className: "tm-heading-text" }, value.text)), value.tags.length > 0 && /* @__PURE__ */ import_react.default.createElement("div", { className: "tm-tag-container" }, value.tags.map((tag, idx) => isActive ? /* @__PURE__ */ import_react.default.createElement(TagPill, { key: idx, tag }) : /* @__PURE__ */ import_react.default.createElement("span", { key: idx, className: "tm-heading-tag" }, tag))))
-    );
+  const indentation = (task.level - 1) * 20;
+  const getHeadingStyle = (level) => {
+    switch (level) {
+      case 1:
+        return { fontSize: "1.2em", fontWeight: "bold" };
+      case 2:
+        return { fontSize: "1.1em", fontWeight: "bold" };
+      case 3:
+        return { fontSize: "1em", fontWeight: "bold" };
+      case 4:
+        return { fontSize: "0.95em", fontWeight: "600" };
+      case 5:
+        return { fontSize: "0.9em", fontWeight: "600" };
+      case 6:
+        return { fontSize: "0.85em", fontWeight: "600", fontStyle: "italic" };
+      default:
+        return {};
+    }
   };
-  return /* @__PURE__ */ import_react.default.createElement("tr", { className: "tm-row" }, /* @__PURE__ */ import_react.default.createElement("td", { className: "tm-link tm-file-cell", onClick: (e) => {
-    if (e.target.closest(".tm-toggle")) return;
-    handleLinkClick(task.file, "");
-  } }, /* @__PURE__ */ import_react.default.createElement("span", { className: "tm-file-icon-wrapper" }, task.hasChildren ? /* @__PURE__ */ import_react.default.createElement(Chevron, { isCollapsed, onClick: (e) => {
-    e.stopPropagation();
-    onToggle(task.id);
-  } }) : /* @__PURE__ */ import_react.default.createElement(FileIcon, null), /* @__PURE__ */ import_react.default.createElement("span", { className: "tm-file-name" }, task.file))), renderCell(1, task.h1), renderCell(2, task.h2), renderCell(3, task.h3), renderCell(4, task.h4), renderCell(5, task.h5), renderCell(6, task.h6));
+  return /* @__PURE__ */ import_react.default.createElement("tr", { className: "tm-row" }, /* @__PURE__ */ import_react.default.createElement(
+    "td",
+    {
+      className: "tm-current-level tm-link",
+      onClick: () => handleLinkClick(task.file, task.text || "")
+    },
+    /* @__PURE__ */ import_react.default.createElement("div", { className: "tm-cell-content", style: { paddingLeft: `${indentation}px` } }, /* @__PURE__ */ import_react.default.createElement("div", { className: "tm-title-row" }, task.hasChildren && /* @__PURE__ */ import_react.default.createElement(Chevron, { isCollapsed, onClick: (e) => {
+      e.stopPropagation();
+      onToggle(task.id);
+    } }), /* @__PURE__ */ import_react.default.createElement("span", { className: "tm-level-pill", style: getHeadingStyle(task.level) }, task.text)), task.tags.length > 0 && /* @__PURE__ */ import_react.default.createElement("div", { className: "tm-tag-container" }, task.tags.map((tag, idx) => /* @__PURE__ */ import_react.default.createElement(TagPill, { key: idx, tag }))))
+  ));
 });
 var TaskTable = ({ tasks, onOpenLink }) => {
   const [collapsedIds, setCollapsedIds] = (0, import_react.useState)(/* @__PURE__ */ new Set());
@@ -21631,16 +21642,28 @@ var TaskTable = ({ tasks, onOpenLink }) => {
       return true;
     });
   }, [tasks, collapsedIds]);
-  return /* @__PURE__ */ import_react.default.createElement("div", { className: "tm-container" }, /* @__PURE__ */ import_react.default.createElement("table", { className: "tm-table" }, /* @__PURE__ */ import_react.default.createElement("thead", null, /* @__PURE__ */ import_react.default.createElement("tr", null, /* @__PURE__ */ import_react.default.createElement("th", null, "file"), /* @__PURE__ */ import_react.default.createElement("th", null, "h1"), /* @__PURE__ */ import_react.default.createElement("th", null, "h2"), /* @__PURE__ */ import_react.default.createElement("th", null, "h3"), /* @__PURE__ */ import_react.default.createElement("th", null, "h4"), /* @__PURE__ */ import_react.default.createElement("th", null, "h5"), /* @__PURE__ */ import_react.default.createElement("th", null, "h6"))), /* @__PURE__ */ import_react.default.createElement("tbody", null, filteredTasks.map((task, index) => /* @__PURE__ */ import_react.default.createElement(
+  const groupedTasks = (0, import_react.useMemo)(() => {
+    const groups = [];
+    let currentGroup = null;
+    filteredTasks.forEach((task) => {
+      if (!currentGroup || currentGroup.file !== task.file) {
+        currentGroup = { file: task.file, tasks: [] };
+        groups.push(currentGroup);
+      }
+      currentGroup.tasks.push(task);
+    });
+    return groups;
+  }, [filteredTasks]);
+  return /* @__PURE__ */ import_react.default.createElement("div", { className: "tm-container" }, /* @__PURE__ */ import_react.default.createElement("table", { className: "tm-table" }, /* @__PURE__ */ import_react.default.createElement("tbody", null, groupedTasks.map((group, gIdx) => /* @__PURE__ */ import_react.default.createElement(import_react.default.Fragment, { key: group.file }, /* @__PURE__ */ import_react.default.createElement("tr", { className: "tm-file-header-row" }, /* @__PURE__ */ import_react.default.createElement("td", { className: "tm-file-header-cell" }, /* @__PURE__ */ import_react.default.createElement("div", { className: "tm-file-icon-wrapper" }, /* @__PURE__ */ import_react.default.createElement(FileIcon, null), /* @__PURE__ */ import_react.default.createElement("span", { className: "tm-file-name" }, group.file)))), group.tasks.map((task, tIdx) => /* @__PURE__ */ import_react.default.createElement(
     TaskRow,
     {
-      key: `${task.file}-${task.level}-${task.text}-${index}`,
+      key: `${task.file}-${task.level}-${task.text}-${tIdx}`,
       task,
       onOpenLink,
       isCollapsed: collapsedIds.has(task.id),
       onToggle: handleToggle
     }
-  )))));
+  )))))));
 };
 
 // src/main.ts

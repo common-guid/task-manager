@@ -131,7 +131,8 @@ export const TaskTable: React.FC<TaskTableProps> = ({ tasks, onOpenLink }) => {
     return tasks.filter(task => {
       // Check if any of its parents are collapsed
       for (let i = 1; i < task.level; i++) {
-        const parent = (task as any)[`h${i}`] as HeadingLevel;
+        const key = `h${i}` as keyof HeadingTask;
+        const parent = task[key] as HeadingLevel;
         if (parent && parent.id && collapsedIds.has(parent.id)) {
           return false;
         }

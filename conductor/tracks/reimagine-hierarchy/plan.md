@@ -17,9 +17,9 @@
 
 ## Phase 3: Visual Verification
 1.  [x] **Deploy for Capture**: Run `scripts/deploy.sh` to ensure the latest changes are in the sandbox environment. eddcc2c
-2.  [~] **Run Screenshot Script**:
+2.  [s] **Run Screenshot Script**:
     -   Use `scripts/sandbox/manage-obsidian.sh start` if needed.
-    -   Execute `scripts/sandbox/capture-obsidian.sh`.
+    -   Execute `scripts/sandbox/capture-obsidian.sh`. (Skipped: Missing sandbox dependencies)
 3.  **Save Image**:
     -   Copy/Move the captured image to `/tests/interface_images/reimagine-hierarchy.png`.
 

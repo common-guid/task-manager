@@ -20,8 +20,8 @@
 2.  [s] **Run Screenshot Script**:
     -   Use `scripts/sandbox/manage-obsidian.sh start` if needed.
     -   Execute `scripts/sandbox/capture-obsidian.sh`. (Skipped: Missing sandbox dependencies)
-3.  **Save Image**:
-    -   Copy/Move the captured image to `/tests/interface_images/reimagine-hierarchy.png`.
+3.  [s] **Save Image**:
+    -   Copy/Move the captured image to `/tests/interface_images/reimagine-hierarchy.png`. (Skipped)
 
 ## Phase 4: Final Deployment
 1.  Run `scripts/deploy.sh` for final verification.

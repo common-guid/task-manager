@@ -1,7 +1,7 @@
 # Implementation Plan: Reimagining the Hierarchy
 
 ## Phase 1: Research & Setup
-1.  [x] Verify the current data structure of `HeadingTask` to ensure it contains necessary level and grouping information.
+1.  [x] Verify the current data structure of `HeadingTask` to ensure it contains necessary level and grouping information. f48d65f
 2.  [~] Review `TaskTable.tsx` to identify where to inject grouping logic.
 
 ## Phase 2: Implementation

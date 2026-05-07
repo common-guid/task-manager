@@ -16,7 +16,7 @@
     -   Adjust `tm-table` and `tm-row` classes to accommodate the new layout. 1479f46
 
 ## Phase 3: Visual Verification
-1.  **Deploy for Capture**: Run `scripts/deploy.sh` to ensure the latest changes are in the sandbox environment.
+1.  [x] **Deploy for Capture**: Run `scripts/deploy.sh` to ensure the latest changes are in the sandbox environment.
 2.  **Run Screenshot Script**:
     -   Use `scripts/sandbox/manage-obsidian.sh start` if needed.
     -   Execute `scripts/sandbox/capture-obsidian.sh`.

@@ -8,12 +8,12 @@
 1.  [x] **Refactor Component Structure**:
     -   Modify `TaskTable` to group `filteredTasks` by `file`.
     -   Introduce a `FileGroup` component or sub-render to display the file header. 4bc33c0
-2.  [~] **Redesign TaskRow**:
+2.  [x] **Redesign TaskRow**:
     -   Replace the H1-H6 cell rendering with a single cell.
     -   Calculate indentation style based on `task.level`.
-    -   Apply heading-specific styling (bold for H1, smaller for H4+, etc.).
-3.  **Update CSS**:
-    -   Adjust `tm-table` and `tm-row` classes to accommodate the new layout.
+    -   Apply heading-specific styling (bold for H1, smaller for H4+, etc.). 1479f46
+3.  [x] **Update CSS**:
+    -   Adjust `tm-table` and `tm-row` classes to accommodate the new layout. 1479f46
 
 ## Phase 3: Visual Verification
 1.  **Deploy for Capture**: Run `scripts/deploy.sh` to ensure the latest changes are in the sandbox environment.

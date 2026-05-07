@@ -67,6 +67,19 @@ const TaskRow = React.memo(({ task, onOpenLink, isCollapsed, onToggle }: {
   };
 
   const indentation = (task.level - 1) * 20;
+  
+  // Dynamic styling based on heading level
+  const getHeadingStyle = (level: number) => {
+    switch (level) {
+      case 1: return { fontSize: '1.2em', fontWeight: 'bold' };
+      case 2: return { fontSize: '1.1em', fontWeight: 'bold' };
+      case 3: return { fontSize: '1em', fontWeight: 'bold' };
+      case 4: return { fontSize: '0.95em', fontWeight: '600' };
+      case 5: return { fontSize: '0.9em', fontWeight: '600' };
+      case 6: return { fontSize: '0.85em', fontWeight: '600', fontStyle: 'italic' };
+      default: return {};
+    }
+  };
 
   return (
     <tr className="tm-row">
@@ -82,7 +95,9 @@ const TaskRow = React.memo(({ task, onOpenLink, isCollapsed, onToggle }: {
                 onToggle(task.id);
               }} />
             )}
-            <span className="tm-level-pill">{task.text}</span>
+            <span className="tm-level-pill" style={getHeadingStyle(task.level)}>
+              {task.text}
+            </span>
           </div>
           {task.tags.length > 0 && (
             <div className="tm-tag-container">

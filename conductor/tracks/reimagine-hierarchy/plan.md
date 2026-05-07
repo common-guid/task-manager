@@ -5,10 +5,10 @@
 2.  [x] Review `TaskTable.tsx` to identify where to inject grouping logic. bceb7ad
 
 ## Phase 2: Implementation
-1.  **Refactor Component Structure**:
+1.  [x] **Refactor Component Structure**:
     -   Modify `TaskTable` to group `filteredTasks` by `file`.
-    -   Introduce a `FileGroup` component or sub-render to display the file header.
-2.  **Redesign TaskRow**:
+    -   Introduce a `FileGroup` component or sub-render to display the file header. 4bc33c0
+2.  [~] **Redesign TaskRow**:
     -   Replace the H1-H6 cell rendering with a single cell.
     -   Calculate indentation style based on `task.level`.
     -   Apply heading-specific styling (bold for H1, smaller for H4+, etc.).

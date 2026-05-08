@@ -26,3 +26,11 @@ export interface HeadingTask {
   /** Whether this heading has any sub-headings beneath it. */
   hasChildren: boolean;
 }
+
+export interface TaskManagerSettings {
+  tagColors: Record<string, string>;
+}
+
+export const DEFAULT_SETTINGS: TaskManagerSettings = {
+  tagColors: {}
+};

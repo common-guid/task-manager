@@ -1,21 +1,25 @@
-import { Plugin, BasesView } from 'obsidian';
+import { Plugin, BasesView, Menu, ColorComponent, Modal } from 'obsidian';
 import React from 'react';
 import { createRoot, Root } from 'react-dom/client';
 import { mapHeadingsToTasks } from './mapper';
-import { HeadingTask } from './types';
+import { HeadingTask, TaskManagerSettings, DEFAULT_SETTINGS } from './types';
 import { TaskTable } from './components/TaskTable';
 
 export const ExampleViewType = 'task-table';
 
 export default class TaskManagerPlugin extends Plugin {
+  settings: TaskManagerSettings;
+
   async onload() {
     console.log('Task Manager Plugin loading...');
+
+    await this.loadSettings();
 
     const registered = this.registerBasesView(ExampleViewType, {
       name: 'Task Table',
       icon: 'lucide-table',
       factory: (controller, containerEl) => {
-        return new TaskBasesView(controller, containerEl);
+        return new TaskBasesView(controller, containerEl, this);
       },
     });
 
@@ -26,15 +30,58 @@ export default class TaskManagerPlugin extends Plugin {
 
     console.log('Task Table view registered successfully.');
 
-    // Obsidian's deferred-view system can render the active .base tab before
-    // a community plugin's onload completes (startup race condition).  After
-    // the workspace layout is fully ready, force every open Bases leaf to
-    // re-apply its state so that it picks up the now-registered view type.
     this.app.workspace.onLayoutReady(() => {
       this.app.workspace.getLeavesOfType('bases').forEach((leaf: any) => {
         leaf.setViewState(leaf.getViewState());
       });
     });
+  }
+
+  async loadSettings() {
+    this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData());
+  }
+
+  async saveSettings() {
+    await this.saveData(this.settings);
+    // Refresh views after settings change
+    this.app.workspace.getLeavesOfType('bases').forEach((leaf: any) => {
+      if (leaf.view instanceof TaskBasesView) {
+        leaf.view.onDataUpdated();
+      }
+    });
+  }
+}
+
+class TagColorModal extends Modal {
+  tag: string;
+  plugin: TaskManagerPlugin;
+
+  constructor(app: any, plugin: TaskManagerPlugin, tag: string) {
+    super(app);
+    this.plugin = plugin;
+    this.tag = tag;
+  }
+
+  onOpen() {
+    const { contentEl } = this;
+    contentEl.createEl('h2', { text: `Select color for #${this.tag}` });
+
+    const colorPicker = new ColorComponent(contentEl)
+      .setValue(this.plugin.settings.tagColors[this.tag] || '#000000')
+      .onChange(async (value) => {
+        this.plugin.settings.tagColors[this.tag] = value;
+        await this.plugin.saveSettings();
+      });
+    
+    colorPicker.addColorPicker();
+    
+    contentEl.createEl('br');
+    contentEl.createEl('button', { text: 'Done' }).onclick = () => this.close();
+  }
+
+  onClose() {
+    const { contentEl } = this;
+    contentEl.empty();
   }
 }
 
@@ -42,9 +89,11 @@ export class TaskBasesView extends BasesView {
   readonly type = ExampleViewType;
   private containerEl: HTMLElement;
   private root: Root | null = null;
+  private plugin: TaskManagerPlugin;
 
-  constructor(controller: any, parentEl: HTMLElement) {
+  constructor(controller: any, parentEl: HTMLElement, plugin: TaskManagerPlugin) {
     super(controller);
+    this.plugin = plugin;
     this.containerEl = parentEl.createDiv('task-manager-view-container');
   }
 
@@ -61,10 +110,27 @@ export class TaskBasesView extends BasesView {
       void app.workspace.openLinkText(path, '', false);
     };
 
+    const handleTagContextMenu = (tag: string, event: React.MouseEvent) => {
+      const menu = new Menu();
+      
+      menu.addItem((item) =>
+        item
+          .setTitle('Tag Color')
+          .setIcon('palette')
+          .onClick(() => {
+            new TagColorModal(this.app, this.plugin, tag).open();
+          })
+      );
+
+      menu.showAtMouseEvent(event.nativeEvent);
+    };
+
     this.root.render(
       React.createElement(TaskTable, { 
         tasks: flattenedTasks,
-        onOpenLink: handleOpenLink
+        onOpenLink: handleOpenLink,
+        onTagContextMenu: handleTagContextMenu,
+        tagColors: this.plugin.settings.tagColors
       })
     );
   }

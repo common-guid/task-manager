@@ -4,16 +4,16 @@
 1.  [x] Identify common tags and metadata patterns in the current test-vault. ddf4422
 2.  [x] Research Obsidian's built-in CSS variables for tag colors (`--tag-color`, etc.). ddf4422
 
-## Phase 2: Implementation
+## Phase 2: Implementation [checkpoint: e54b6cb]
 1.  [x] **Update TagPill Component**:
     -   Refactor `TagPill` in `TaskTable.tsx` to support dynamic background and text colors.
-    -   Implement a simple color-hashing function for automatic tag coloring. ddf4422
+    -   Implement a simple color-hashing function for automatic tag coloring. e54b6cb
 2.  [x] **Enhance Metadata Rendering**:
     -   Update `renderCell` (TaskRow logic) to detect specific metadata (e.g., strings matching ISO dates).
-    -   Integrate inline SVG icons for detected metadata types.
+    -   Integrate inline SVG icons for detected metadata types. e54b6cb
 3.  [x] **Refine CSS**:
     -   Add specific styles for `.tm-tag-pill` and new metadata badge classes.
-    -   Ensure hover states and contrast ratios meet accessibility standards.
+    -   Ensure hover states and contrast ratios meet accessibility standards. e54b6cb
 
 ## Phase 3: Custom Tag Coloring
 1.  [~] **Right-Click Menu Integration**:

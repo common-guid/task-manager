@@ -4,6 +4,8 @@ import { HeadingTask, HeadingLevel } from '../types';
 interface TaskTableProps {
   tasks: HeadingTask[];
   onOpenLink?: (file: string, heading: string) => void;
+  onTagContextMenu?: (tag: string, event: React.MouseEvent) => void;
+  tagColors?: Record<string, string>;
 }
 
 // Inline Lucide-style icons
@@ -61,12 +63,28 @@ const stringToColor = (str: string) => {
   return `hsla(${h}, 70%, 40%, 0.15)`;
 };
 
-const TagPill: React.FC<{ tag: string }> = ({ tag }) => {
+const hexToRgba = (hex: string, alpha: number) => {
+  const r = parseInt(hex.slice(1, 3), 16);
+  const g = parseInt(hex.slice(3, 5), 16);
+  const b = parseInt(hex.slice(5, 7), 16);
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+};
+
+const TagPill: React.FC<{ tag: string, onContextMenu?: (tag: string, event: React.MouseEvent) => void, customColor?: string }> = ({ tag, onContextMenu, customColor }) => {
   const isDate = /^\d{4}-\d{2}-\d{2}$/.test(tag);
   const isPriority = /priority|p[1-3]/.test(tag.toLowerCase());
 
-  const backgroundColor = useMemo(() => stringToColor(tag), [tag]);
+  const backgroundColor = useMemo(() => {
+    if (customColor) return hexToRgba(customColor, 0.15);
+    return stringToColor(tag);
+  }, [tag, customColor]);
   
+  const textColor = useMemo(() => {
+    if (customColor) return customColor;
+    const h = backgroundColor.split(',')[0].split('(')[1];
+    return `hsl(${h}, 70%, 30%)`;
+  }, [backgroundColor, customColor]);
+
   let className = "tm-tag-pill";
   let icon = null;
 
@@ -78,13 +96,21 @@ const TagPill: React.FC<{ tag: string }> = ({ tag }) => {
     icon = <FlagIcon />;
   }
 
+  const handleContextMenu = (e: React.MouseEvent) => {
+    if (onContextMenu) {
+      e.preventDefault();
+      onContextMenu(tag, e);
+    }
+  };
+
   return (
     <span 
       className={className}
+      onContextMenu={handleContextMenu}
       style={{ 
         backgroundColor, 
-        color: `hsl(${backgroundColor.split(',')[0].split('(')[1]}, 70%, 30%)`,
-        border: `1px solid hsla(${backgroundColor.split(',')[0].split('(')[1]}, 70%, 30%, 0.2)`
+        color: textColor,
+        border: `1px solid ${customColor ? hexToRgba(customColor, 0.2) : backgroundColor.replace('0.15)', '0.3)')}`
       }}
     >
       {icon}
@@ -93,11 +119,13 @@ const TagPill: React.FC<{ tag: string }> = ({ tag }) => {
   );
 };
 
-const TaskRow = React.memo(({ task, onOpenLink, isCollapsed, onToggle }: { 
+const TaskRow = React.memo(({ task, onOpenLink, isCollapsed, onToggle, onTagContextMenu, tagColors }: { 
   task: HeadingTask, 
   onOpenLink?: (file: string, heading: string) => void,
   isCollapsed: boolean,
-  onToggle: (id: string) => void
+  onToggle: (id: string) => void,
+  onTagContextMenu?: (tag: string, event: React.MouseEvent) => void,
+  tagColors?: Record<string, string>
 }) => {
   const handleLinkClick = (file: string, heading: string) => {
     if (onOpenLink) {
@@ -141,7 +169,12 @@ const TaskRow = React.memo(({ task, onOpenLink, isCollapsed, onToggle }: {
           {task.tags.length > 0 && (
             <div className="tm-tag-container">
               {task.tags.map((tag, idx) => (
-                <TagPill key={idx} tag={tag} />
+                <TagPill 
+                  key={idx} 
+                  tag={tag} 
+                  onContextMenu={onTagContextMenu} 
+                  customColor={tagColors?.[tag]} 
+                />
               ))}
             </div>
           )}
@@ -151,7 +184,7 @@ const TaskRow = React.memo(({ task, onOpenLink, isCollapsed, onToggle }: {
   );
 });
 
-export const TaskTable: React.FC<TaskTableProps> = ({ tasks, onOpenLink }) => {
+export const TaskTable: React.FC<TaskTableProps> = ({ tasks, onOpenLink, onTagContextMenu, tagColors }) => {
   const [collapsedIds, setCollapsedIds] = useState<Set<string>>(new Set());
 
   const handleToggle = (id: string) => {
@@ -216,6 +249,8 @@ export const TaskTable: React.FC<TaskTableProps> = ({ tasks, onOpenLink }) => {
                   onOpenLink={onOpenLink}
                   isCollapsed={collapsedIds.has(task.id)}
                   onToggle={handleToggle}
+                  onTagContextMenu={onTagContextMenu}
+                  tagColors={tagColors}
                 />
               ))}
             </React.Fragment>

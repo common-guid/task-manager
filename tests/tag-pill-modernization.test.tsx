@@ -72,4 +72,15 @@ describe('TagPill Modernization', () => {
     expect(badge?.querySelector('.tm-metadata-icon')).toBeInTheDocument();
     expect(badge).toHaveClass('tm-metadata-priority');
   });
+
+  it('should apply user-defined custom colors from settings', () => {
+    const tagColors = { 'work': '#ff0000' };
+    render(<TaskTable tasks={tasks} tagColors={tagColors} />);
+    
+    const workTag = screen.getByText('work');
+    // The background color should be the RGBA version of #ff0000 (255, 0, 0)
+    const workStyle = window.getComputedStyle(workTag);
+    expect(workStyle.color).toBe('rgb(255, 0, 0)');
+    expect(workStyle.backgroundColor).toContain('rgba(255, 0, 0');
+  });
 });

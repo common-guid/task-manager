@@ -6,25 +6,27 @@ interface TaskTableProps {
   onOpenLink?: (file: string, heading: string) => void;
 }
 
-// Inline Lucide-style file-text SVG icon
+// Inline Lucide-style icons
 const FileIcon: React.FC = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    aria-hidden="true"
-    className="tm-file-icon"
-    style={{ width: '16px', height: '16px', minWidth: '16px', flexShrink: 0 }}
-  >
+  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="tm-file-icon">
     <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
     <polyline points="14 2 14 8 20 8" />
-    <line x1="16" y1="13" x2="8" y2="13" />
-    <line x1="16" y1="17" x2="8" y2="17" />
-    <polyline points="10 9 9 9 8 9" />
+  </svg>
+);
+
+const CalendarIcon: React.FC = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="tm-metadata-icon">
+    <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+    <line x1="16" y1="2" x2="16" y2="6" />
+    <line x1="8" y1="2" x2="8" y2="6" />
+    <line x1="3" y1="10" x2="21" y2="10" />
+  </svg>
+);
+
+const FlagIcon: React.FC = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="tm-metadata-icon">
+    <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z" />
+    <line x1="4" y1="22" x2="4" y2="15" />
   </svg>
 );
 
@@ -50,9 +52,46 @@ const Chevron: React.FC<{ isCollapsed: boolean, onClick: (e: React.MouseEvent) =
   </button>
 );
 
-const TagPill: React.FC<{ tag: string }> = ({ tag }) => (
-  <span className="tm-tag-pill">{tag}</span>
-);
+const stringToColor = (str: string) => {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    hash = str.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  const h = Math.abs(hash) % 360;
+  return `hsla(${h}, 70%, 40%, 0.15)`;
+};
+
+const TagPill: React.FC<{ tag: string }> = ({ tag }) => {
+  const isDate = /^\d{4}-\d{2}-\d{2}$/.test(tag);
+  const isPriority = /priority|p[1-3]/.test(tag.toLowerCase());
+
+  const backgroundColor = useMemo(() => stringToColor(tag), [tag]);
+  
+  let className = "tm-tag-pill";
+  let icon = null;
+
+  if (isDate) {
+    className += " tm-metadata-date";
+    icon = <CalendarIcon />;
+  } else if (isPriority) {
+    className += " tm-metadata-priority";
+    icon = <FlagIcon />;
+  }
+
+  return (
+    <span 
+      className={className}
+      style={{ 
+        backgroundColor, 
+        color: `hsl(${backgroundColor.split(',')[0].split('(')[1]}, 70%, 30%)`,
+        border: `1px solid hsla(${backgroundColor.split(',')[0].split('(')[1]}, 70%, 30%, 0.2)`
+      }}
+    >
+      {icon}
+      {tag}
+    </span>
+  );
+};
 
 const TaskRow = React.memo(({ task, onOpenLink, isCollapsed, onToggle }: { 
   task: HeadingTask, 

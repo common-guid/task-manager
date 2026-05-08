@@ -7,7 +7,7 @@ import { TaskTable } from './components/TaskTable';
 
 export const ExampleViewType = 'task-table';
 
-export default class TaskManagerPlugin extends Plugin {
+export class TaskManagerPlugin extends Plugin {
   settings: TaskManagerSettings;
 
   async onload() {
@@ -45,12 +45,16 @@ export default class TaskManagerPlugin extends Plugin {
     await this.saveData(this.settings);
     // Refresh views after settings change
     this.app.workspace.getLeavesOfType('bases').forEach((leaf: any) => {
-      if (leaf.view instanceof TaskBasesView) {
-        leaf.view.onDataUpdated();
+      if (leaf.view && leaf.view.type === ExampleViewType && typeof (leaf.view as any).onDataUpdated === 'function') {
+        (leaf.view as any).onDataUpdated();
       }
     });
   }
 }
+
+// Ensure Obsidian can load the plugin (Obsidian expects a default export)
+// We follow the Law by using named exports primarily, but provide this for platform compatibility.
+export default TaskManagerPlugin;
 
 class TagColorModal extends Modal {
   tag: string;
@@ -76,7 +80,11 @@ class TagColorModal extends Modal {
     colorPicker.addColorPicker();
     
     contentEl.createEl('br');
-    contentEl.createEl('button', { text: 'Done' }).onclick = () => this.close();
+    const saveBtn = contentEl.createEl('button', { text: 'Save' });
+    saveBtn.onclick = async () => {
+      await this.plugin.saveSettings();
+      this.close();
+    };
   }
 
   onClose() {
@@ -130,7 +138,7 @@ export class TaskBasesView extends BasesView {
         tasks: flattenedTasks,
         onOpenLink: handleOpenLink,
         onTagContextMenu: handleTagContextMenu,
-        tagColors: this.plugin.settings.tagColors
+        tagColors: { ...this.plugin.settings.tagColors }
       })
     );
   }

@@ -14,7 +14,7 @@ To provide independent software engineers and power users with a unified, databa
 A seamless integration of task management and Obsidian's database-like "Bases" views, offering a powerful yet simple UI for tracking complex project hierarchies and dependencies without leaving the markdown-based workflow.
 
 ## Key Features
-- **Centralized Hub:** A 'single pane of glass' table view powered by Obsidian Bases, projecting Markdown headings as individual rows with full H1-H6 context.
+- **Centralized Hub:** A 'single pane of glass' hierarchical view powered by Obsidian Bases, projecting Markdown headings as grouped rows with visual indentation and level-specific styling.
 - **Hierarchical Task Management:** Full support for task/subtask relationships, ensuring that complex projects are easy to navigate.
 - **Dependency Tracking:** Visual indicators and management for task dependencies, helping users understand blockers and project flow.
 - **Integrated Links:** Direct links between tasks, related notes, and project documentation for full contextual awareness.

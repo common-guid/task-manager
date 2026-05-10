@@ -11,52 +11,30 @@ describe('TaskTable Component Hierarchy', () => {
       id: 'p1',
       file: 'test.md',
       h1: { id: 'p1', text: 'Project', tags: [] },
-      h2: emptyLevel,
-      h3: emptyLevel,
-      h4: emptyLevel,
-      h5: emptyLevel,
-      h6: emptyLevel,
-      level: 1,
-      text: 'Project',
-      tags: [],
-      hasChildren: true
+      h2: emptyLevel, h3: emptyLevel, h4: emptyLevel, h5: emptyLevel, h6: emptyLevel,
+      level: 1, text: 'Project', tags: [], hasChildren: true
     },
     {
       id: 't1',
       file: 'test.md',
       h1: { id: 'p1', text: 'Project', tags: [] },
       h2: { id: 't1', text: 'Task 1', tags: [] },
-      h3: emptyLevel,
-      h4: emptyLevel,
-      h5: emptyLevel,
-      h6: emptyLevel,
-      level: 2,
-      text: 'Task 1',
-      tags: [],
-      hasChildren: false
+      h3: emptyLevel, h4: emptyLevel, h5: emptyLevel, h6: emptyLevel,
+      level: 2, text: 'Task 1', tags: [], hasChildren: false
     }
   ];
 
-  it('should render a toggle button in the file column when hasChildren is true', () => {
+  it('should render a toggle button next to tasks with children', () => {
     render(<TaskTable tasks={tasks} />);
     
-    // Find the 'test.md' cell (file column)
-    const fileCells = screen.getAllByText('test.md');
-    // The first row has children, the second doesn't.
-    
-    const firstRowFileCell = fileCells[0].closest('td');
-    expect(firstRowFileCell?.querySelector('.tm-toggle')).toBeInTheDocument();
-    expect(firstRowFileCell?.querySelector('.tm-file-icon')).not.toBeInTheDocument();
+    // In the new design, the toggle is inside the tm-title-row of the TaskRow cell
+    const projectText = screen.getByText('Project');
+    const projectRow = projectText.closest('.tm-row');
+    expect(projectRow?.querySelector('.tm-toggle')).toBeInTheDocument();
 
-    const secondRowFileCell = fileCells[1].closest('td');
-    expect(secondRowFileCell?.querySelector('.tm-toggle')).not.toBeInTheDocument();
-    expect(secondRowFileCell?.querySelector('.tm-file-icon')).toBeInTheDocument();
-
-    // Verify heading columns do not have toggle buttons
-    const projectPills = screen.getAllByText('Project');
-    const primaryProjectPill = projectPills.find(el => el.classList.contains('tm-level-pill'));
-    const projectCell = primaryProjectPill?.closest('.tm-cell-content');
-    expect(projectCell?.querySelector('.tm-toggle')).not.toBeInTheDocument();
+    const task1Text = screen.getByText('Task 1');
+    const task1Row = task1Text.closest('.tm-row');
+    expect(task1Row?.querySelector('.tm-toggle')).not.toBeInTheDocument();
   });
 
   it('should collapse children when toggle is clicked', () => {
@@ -87,13 +65,8 @@ describe('TaskTable Component Hierarchy', () => {
             h1: { id: 'p1', text: 'Project', tags: [] },
             h2: { id: 't1', text: 'Task 1', tags: [] },
             h3: { id: 's1', text: 'Subtask 1.1', tags: [] },
-            h4: emptyLevel,
-            h5: emptyLevel,
-            h6: emptyLevel,
-            level: 3,
-            text: 'Subtask 1.1',
-            tags: [],
-            hasChildren: false
+            h4: emptyLevel, h5: emptyLevel, h6: emptyLevel,
+            level: 3, text: 'Subtask 1.1', tags: [], hasChildren: false
         }
     ];
     // Update Task 1 to have children

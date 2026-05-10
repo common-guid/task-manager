@@ -66,64 +66,48 @@ const TaskRow = React.memo(({ task, onOpenLink, isCollapsed, onToggle }: {
     }
   };
 
-  const renderCell = (level: number, value: HeadingLevel) => {
-    const isActive = task.level === level;
-    if (!value.text && value.tags.length === 0) return <td></td>;
+  const indentation = (task.level - 1) * 20;
+  
+  // Dynamic styling based on heading level
+  const getHeadingStyle = (level: number) => {
+    switch (level) {
+      case 1: return { fontSize: '1.2em', fontWeight: 'bold' };
+      case 2: return { fontSize: '1.1em', fontWeight: 'bold' };
+      case 3: return { fontSize: '1em', fontWeight: 'bold' };
+      case 4: return { fontSize: '0.95em', fontWeight: '600' };
+      case 5: return { fontSize: '0.9em', fontWeight: '600' };
+      case 6: return { fontSize: '0.85em', fontWeight: '600', fontStyle: 'italic' };
+      default: return {};
+    }
+  };
 
-    return (
+  return (
+    <tr className="tm-row">
       <td
-        className={isActive ? 'tm-current-level tm-link' : ''}
-        onClick={() => isActive && handleLinkClick(task.file, value.text || '')}
+        className="tm-current-level tm-link"
+        onClick={() => handleLinkClick(task.file, task.text || '')}
       >
-        <div className="tm-cell-content">
+        <div className="tm-cell-content" style={{ paddingLeft: `${indentation}px` }}>
           <div className="tm-title-row">
-            {isActive ? (
-              <span className="tm-level-pill">{value.text}</span>
-            ) : (
-              <span className="tm-heading-text">{value.text}</span>
+            {task.hasChildren && (
+              <Chevron isCollapsed={isCollapsed} onClick={(e) => {
+                e.stopPropagation();
+                onToggle(task.id);
+              }} />
             )}
+            <span className="tm-level-pill" style={getHeadingStyle(task.level)}>
+              {task.text}
+            </span>
           </div>
-          {value.tags.length > 0 && (
+          {task.tags.length > 0 && (
             <div className="tm-tag-container">
-              {value.tags.map((tag, idx) => (
-                isActive ? (
-                  <TagPill key={idx} tag={tag} />
-                ) : (
-                  <span key={idx} className="tm-heading-tag">{tag}</span>
-                )
+              {task.tags.map((tag, idx) => (
+                <TagPill key={idx} tag={tag} />
               ))}
             </div>
           )}
         </div>
       </td>
-    );
-  };
-
-  return (
-    <tr className="tm-row">
-      <td className="tm-link tm-file-cell" onClick={(e) => {
-        // Prevent opening link if clicking the toggle button
-        if ((e.target as HTMLElement).closest('.tm-toggle')) return;
-        handleLinkClick(task.file, '');
-      }}>
-        <span className="tm-file-icon-wrapper">
-          {task.hasChildren ? (
-            <Chevron isCollapsed={isCollapsed} onClick={(e) => {
-              e.stopPropagation();
-              onToggle(task.id);
-            }} />
-          ) : (
-            <FileIcon />
-          )}
-          <span className="tm-file-name">{task.file}</span>
-        </span>
-      </td>
-      {renderCell(1, task.h1)}
-      {renderCell(2, task.h2)}
-      {renderCell(3, task.h3)}
-      {renderCell(4, task.h4)}
-      {renderCell(5, task.h5)}
-      {renderCell(6, task.h6)}
     </tr>
   );
 });
@@ -147,7 +131,8 @@ export const TaskTable: React.FC<TaskTableProps> = ({ tasks, onOpenLink }) => {
     return tasks.filter(task => {
       // Check if any of its parents are collapsed
       for (let i = 1; i < task.level; i++) {
-        const parent = (task as any)[`h${i}`] as HeadingLevel;
+        const key = `h${i}` as keyof HeadingTask;
+        const parent = task[key] as HeadingLevel;
         if (parent && parent.id && collapsedIds.has(parent.id)) {
           return false;
         }
@@ -156,29 +141,45 @@ export const TaskTable: React.FC<TaskTableProps> = ({ tasks, onOpenLink }) => {
     });
   }, [tasks, collapsedIds]);
 
+  const groupedTasks = useMemo(() => {
+    const groups: { file: string, tasks: HeadingTask[] }[] = [];
+    let currentGroup: { file: string, tasks: HeadingTask[] } | null = null;
+
+    filteredTasks.forEach(task => {
+      if (!currentGroup || currentGroup.file !== task.file) {
+        currentGroup = { file: task.file, tasks: [] };
+        groups.push(currentGroup);
+      }
+      currentGroup.tasks.push(task);
+    });
+
+    return groups;
+  }, [filteredTasks]);
+
   return (
     <div className="tm-container">
       <table className="tm-table">
-        <thead>
-          <tr>
-            <th>file</th>
-            <th>h1</th>
-            <th>h2</th>
-            <th>h3</th>
-            <th>h4</th>
-            <th>h5</th>
-            <th>h6</th>
-          </tr>
-        </thead>
         <tbody>
-          {filteredTasks.map((task, index) => (
-            <TaskRow 
-              key={`${task.file}-${task.level}-${task.text}-${index}`} 
-              task={task} 
-              onOpenLink={onOpenLink}
-              isCollapsed={collapsedIds.has(task.id)}
-              onToggle={handleToggle}
-            />
+          {groupedTasks.map((group, gIdx) => (
+            <React.Fragment key={group.file}>
+              <tr className="tm-file-header-row">
+                <td className="tm-file-header-cell">
+                  <div className="tm-file-icon-wrapper">
+                    <FileIcon />
+                    <span className="tm-file-name">{group.file}</span>
+                  </div>
+                </td>
+              </tr>
+              {group.tasks.map((task, tIdx) => (
+                <TaskRow 
+                  key={`${task.file}-${task.level}-${task.text}-${tIdx}`} 
+                  task={task} 
+                  onOpenLink={onOpenLink}
+                  isCollapsed={collapsedIds.has(task.id)}
+                  onToggle={handleToggle}
+                />
+              ))}
+            </React.Fragment>
           ))}
         </tbody>
       </table>

@@ -95,7 +95,7 @@
 
 /* Interactive row hover */
 .tm-table tbody tr.tm-row:hover {
-  background-color: var(--background-modifier-hover);
+  background-color: var(--background-modifier-hover) !important;
 }
 
 /* Clickable cell styles */
@@ -119,6 +119,7 @@
   flex-direction: column;
   gap: 4px;
   align-items: flex-start;
+  position: relative;
 }
 
 .tm-title-row {
@@ -191,4 +192,14 @@
   background-color: var(--background-modifier-hover);
   color: var(--text-normal) !important;
   text-decoration: none !important;
+}
+
+/* Indentation guide lines */
+.tm-indent-guide {
+  position: absolute;
+  top: -8px; /* Offset for cell padding to make lines continuous */
+  bottom: -8px;
+  width: 1px;
+  background-color: var(--background-modifier-border);
+  z-index: 1;
 }

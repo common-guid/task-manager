@@ -44,7 +44,7 @@ describe('TaskTable Component Hierarchy', () => {
     expect(screen.getByText('Task 1')).toBeInTheDocument();
 
     // Click the toggle on Project
-    const toggleButtons = screen.getAllByRole('button');
+    const toggleButtons = screen.getAllByRole('button').filter(btn => btn.classList.contains('tm-toggle'));
     fireEvent.click(toggleButtons[0]);
 
     // Task 1 should be gone
@@ -77,7 +77,7 @@ describe('TaskTable Component Hierarchy', () => {
     expect(screen.getByText('Subtask 1.1')).toBeInTheDocument();
 
     // Toggles are on Project and Task 1
-    const toggleButtons = screen.getAllByRole('button');
+    const toggleButtons = screen.getAllByRole('button').filter(btn => btn.classList.contains('tm-toggle'));
     expect(toggleButtons).toHaveLength(2);
 
     // Collapse Task 1 (the second toggle button)

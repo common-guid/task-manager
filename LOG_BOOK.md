@@ -18,3 +18,10 @@ Refined the Tree Table UI by moving the hierarchical toggle from the heading cel
 
 ## Fix: Styling Conflicts and Icon Sizing | 2026-03-25
 Resolved issues where Obsidian themes or other plugins (like "Bases") were causing styling conflicts, leading to giant icons and unintended UI elements. Switched to unique `tm-` prefixed class names for all components to prevent namespace collisions. Implemented inline styles for SVG icon and button dimensions to ensure a consistent 16x16px footprint that overrides global theme CSS. Updated `styles.css` with higher-specificity rules and `!important` flags for critical layout properties. These changes ensure the Notion-style UI remains stable regardless of the user's active theme or environment.
+
+## Visual Verification | 2026-05-07
+Screenshot captured: `/app/tests/interface_images/immediate-functional-gains.png`
+
+
+## Immediate Functional Gains | 2026-05-07
+Implemented sticky file headers, breadcrumb tooltips on hover using full parent hierarchy, and quick actions (Open/Copy Link) on hover for TaskTable rows.

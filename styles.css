@@ -30,6 +30,9 @@
 .tm-file-header-row {
   background-color: var(--background-secondary-alt);
   border-bottom: 1px solid var(--background-modifier-border);
+  position: sticky;
+  top: 0;
+  z-index: 10;
 }
 
 .tm-file-header-cell {
@@ -191,4 +194,34 @@
   background-color: var(--background-modifier-hover);
   color: var(--text-normal) !important;
   text-decoration: none !important;
+}
+
+/* Quick Actions Container */
+.tm-actions-container {
+  display: flex;
+  gap: 4px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  margin-left: auto;
+}
+
+.tm-row:hover .tm-actions-container {
+  opacity: 1;
+}
+
+.tm-action-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tm-action-btn:hover {
+  background-color: var(--background-modifier-hover);
+  color: var(--text-normal);
 }

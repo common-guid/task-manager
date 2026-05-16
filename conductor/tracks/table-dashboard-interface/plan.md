@@ -9,7 +9,7 @@
 1.  **[x] Column Settings:** Update `TaskManagerSettings` in `src/types.ts` to include a `columns` configuration (an array of column names/keys). (117aa0e)
 2.  **[x] Settings UI:** Update `TaskManagerSettingTab` in `src/main.ts` so users can add, remove, and reorder columns. Include a default setup (e.g., ["Task", "Status", "Due"]). (5504292)
 
-## Phase 3: Dashboard UI Overhaul
+## Phase 3: Dashboard UI Overhaul [checkpoint: 6328c28]
 1.  **[x] Refactor Table Structure:** Modify `src/components/TaskTable.tsx` to output a standard `<thead>` for the column titles. Apply Obsidian-native styling for a clean dashboard look. (673e66e)
 2.  **[x] Row Rendering:** Refactor `TaskRow` to map over the configured columns. (1ef6653)
     *   The primary column ("Task") will contain the current hierarchical visual logic (indentation, collapse chevron, task text).

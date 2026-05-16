@@ -1,0 +1,55 @@
+.task-manager-view-container {
+  padding: 10px;
+}
+
+.tm-container {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.tm-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed; /* Ensures columns take up specific widths */
+}
+
+/*
+  1st column is wider for hierarchical data.
+  Subsequent columns are evenly distributed.
+*/
+.tm-table th:nth-child(1),
+.tm-table td:nth-child(1) {
+  width: 40%;
+}
+
+.tm-table th,
+.tm-table td {
+  border: 1px solid var(--background-modifier-border);
+  padding: 8px 12px;
+  vertical-align: top;
+  text-align: left;
+}
+
+/* Header row specific styling */
+.tm-column-header {
+  border-top: 2px solid var(--background-modifier-border-hover);
+  border-bottom: 2px solid var(--background-modifier-border-hover);
+  color: var(--text-normal);
+  font-weight: bold;
+  text-transform: capitalize;
+  background-color: var(--background-secondary); /* Give it a slight highlight */
+}
+
+/* Metadata cell styling */
+.tm-metadata-cell {
+  color: var(--text-muted);
+  font-size: 0.9em;
+}
+
+/* Reset border on file header to avoid box-in-box look */
+.tm-file-header-row td {
+  border-left: none;
+  border-right: none;
+  border-top: 2px solid var(--background-modifier-border);
+  background-color: var(--background-primary-alt);
+}

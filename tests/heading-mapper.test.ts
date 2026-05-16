@@ -84,3 +84,32 @@ describe('Heading Mapper with Position-based Tags', () => {
     expect(tasks[1].h2.tags).toContain('t2');
   });
 });
+
+describe('Metadata Extraction', () => {
+  it('should extract dataview style metadata beneath headings', () => {
+    const fileName = 'metadata.md';
+    const fileContent = `# Task 1
+Status:: In Progress
+Priority:: High
+Some generic text
+
+# Task 2
+Status:: Done
+`;
+
+    const headings = [
+      { heading: 'Task 1', level: 1, position: { start: { line: 0 } } },
+      { heading: 'Task 2', level: 1, position: { start: { line: 5 } } },
+    ] as any[];
+
+    const tasks = mapHeadingsToTasks(fileName, headings, [], fileContent);
+
+    expect(tasks[0].metadata).toBeDefined();
+    expect(tasks[0].metadata['Status']).toBe('In Progress');
+    expect(tasks[0].metadata['Priority']).toBe('High');
+
+    expect(tasks[1].metadata).toBeDefined();
+    expect(tasks[1].metadata['Status']).toBe('Done');
+    expect(tasks[1].metadata['Priority']).toBeUndefined();
+  });
+});

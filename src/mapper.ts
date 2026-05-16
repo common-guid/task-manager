@@ -46,6 +46,23 @@ function getTagsForHeading(
   return Array.from(new Set([...headingTextTags, ...sectionTags]));
 }
 
+/**
+ * Extracts Dataview-style inline metadata (Key:: Value) from a text block.
+ */
+export function extractInlineMetadata(text: string): Record<string, string> {
+  const metadata: Record<string, string> = {};
+  const regex = /^\s*([a-zA-Z0-9_-]+)\s*::\s*(.*)$/gm;
+  let match;
+
+  while ((match = regex.exec(text)) !== null) {
+    const key = match[1].trim();
+    const value = match[2].trim();
+    metadata[key] = value;
+  }
+
+  return metadata;
+}
+
 export function mapHeadingsToTasks(
   fileName: string, 
   headings: HeadingCache[], 

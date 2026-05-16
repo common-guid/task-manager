@@ -1,0 +1,190 @@
+/* ============================================================
+   Task Manager Plugin — Notion-style table UI
+   All rules are scoped under .tm-table to prevent
+   conflicts with other Obsidian themes or plugins.
+   ============================================================ */
+
+.tm-container {
+  width: 100%;
+  overflow-x: auto;
+  padding: 20px;
+}
+
+.tm-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95em;
+  table-layout: auto;
+}
+
+/* Header styling */
+.tm-header-row {
+  background-color: var(--background-secondary) !important;
+}
+
+.tm-header-cell {
+  color: var(--text-muted) !important;
+  padding: 10px 14px !important;
+  text-transform: capitalize;
+  font-weight: 500;
+  font-size: var(--font-ui-small);
+  text-align: left;
+  border: 1px solid var(--background-modifier-border) !important;
+}
+
+.tm-table tr.tm-row {
+  border-bottom: 1px solid var(--background-modifier-border);
+}
+
+.tm-table td {
+  padding: 8px 12px;
+  line-height: 1.5;
+  vertical-align: middle;
+  border: 1px solid var(--background-modifier-border) !important;
+}
+
+/* File Header Row styling */
+.tm-file-header-row {
+  background-color: var(--background-secondary-alt);
+  border-bottom: 1px solid var(--background-modifier-border);
+}
+
+.tm-file-header-cell {
+  padding: 10px 12px !important;
+  border: 1px solid var(--background-modifier-border) !important;
+}
+
+/* File icon wrapper — flex row for icon + filename */
+.tm-file-icon-wrapper {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  vertical-align: middle;
+}
+
+/* Ensure both icons and buttons have identical footprint */
+.tm-file-icon,
+.tm-toggle {
+  width: 16px !important;
+  height: 16px !important;
+  min-width: 16px !important;
+  min-height: 16px !important;
+  flex-shrink: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.tm-file-icon {
+  color: var(--text-muted);
+}
+
+.tm-file-name {
+  color: var(--text-normal);
+  font-weight: 600;
+  font-size: 0.95em;
+}
+
+/* Pill badge for the active heading level */
+.tm-level-pill {
+  display: inline-block;
+  padding: 2px 6px;
+  border-radius: 4px;
+  color: var(--text-normal);
+}
+
+/* Interactive row hover */
+.tm-table tbody tr.tm-row:hover {
+  background-color: var(--background-modifier-hover) !important;
+}
+
+/* Clickable cell styles */
+.tm-table td.tm-link {
+  cursor: pointer;
+}
+
+.tm-table td.tm-link:hover .tm-level-pill {
+  color: var(--text-accent);
+  text-decoration: underline;
+}
+
+/* Cell content layout for title + tags */
+.tm-cell-content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: flex-start;
+  position: relative;
+}
+
+.tm-title-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
+/* Toggle button styling */
+.tm-toggle {
+  background: transparent !important;
+  border: none !important;
+  cursor: pointer !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  color: var(--text-muted) !important;
+  border-radius: 4px !important;
+  box-shadow: none !important;
+}
+
+.tm-toggle:hover {
+  background-color: var(--background-modifier-hover) !important;
+  color: var(--text-normal) !important;
+}
+
+.tm-chevron-icon {
+  width: 100% !important;
+  height: 100% !important;
+  transition: transform 0.2s ease;
+  transform: rotate(0deg);
+}
+
+.tm-chevron-icon.collapsed {
+  transform: rotate(-90deg);
+}
+
+/* Tag container — flex wrap for multiple tags */
+.tm-tag-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+/* Notion-style Tag Pill */
+.tm-table .tm-tag-pill {
+  display: inline-block;
+  padding: 1px 6px;
+  border-radius: 3px;
+  font-size: 0.75em;
+  font-weight: 500;
+  background-color: var(--background-secondary);
+  color: var(--text-muted) !important;
+  border: 1px solid var(--background-modifier-border);
+  white-space: nowrap;
+  text-decoration: none !important;
+  line-height: 1.4;
+}
+
+/* Indentation guide lines */
+.tm-indent-guide {
+  position: absolute;
+  top: -8px; 
+  bottom: -8px;
+  width: 4px;
+  z-index: 1;
+  border-radius: 2px;
+}
+
+.tm-metadata-cell {
+  font-size: 0.85em;
+  color: var(--text-muted);
+}

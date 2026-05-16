@@ -10,11 +10,11 @@
 2.  **[x] Settings UI:** Update `TaskManagerSettingTab` in `src/main.ts` so users can add, remove, and reorder columns. Include a default setup (e.g., ["Task", "Status", "Due"]). (5504292)
 
 ## Phase 3: Dashboard UI Overhaul
-1.  **[x] Refactor Table Structure:** Modify `src/components/TaskTable.tsx` to output a standard `<thead>` for the column titles. Apply styling to match the objective (e.g., yellow title bar, green text). (673e66e)
+1.  **[x] Refactor Table Structure:** Modify `src/components/TaskTable.tsx` to output a standard `<thead>` for the column titles. Apply Obsidian-native styling for a clean dashboard look. (673e66e)
 2.  **[x] Row Rendering:** Refactor `TaskRow` to map over the configured columns. (1ef6653)
     *   The primary column ("Task") will contain the current hierarchical visual logic (indentation, collapse chevron, task text).
     *   Subsequent columns will display values from the `task.metadata` dictionary matching the column key.
-3.  **[x] CSS Grid/Table Styling:** Update `src/styles/` to implement defined borders and column widths (the "red rectangles"). (9e0ac69)
+3.  **[x] CSS Grid/Table Styling:** Update `src/styles/` to implement defined borders and column widths using Obsidian CSS variables. (9e0ac69)
 
 ## Phase 4: Integration & Verification
 1.  **Unit Tests:** Add tests to `tests/heading-mapper.test.ts` to verify inline field parsing.

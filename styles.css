@@ -17,19 +17,19 @@
   table-layout: auto;
 }
 
-/* Header styling: Yellow title bar, green text, red borders */
+/* Header styling */
 .tm-header-row {
-  background-color: #ffff00 !important; /* Yellow title bar */
+  background-color: var(--background-secondary) !important;
 }
 
 .tm-header-cell {
-  color: #008000 !important; /* Green text */
+  color: var(--text-muted) !important;
   padding: 10px 14px !important;
   text-transform: capitalize;
-  font-weight: bold;
-  font-size: calc(var(--font-ui-medium) + 4px);
+  font-weight: 500;
+  font-size: var(--font-ui-small);
   text-align: left;
-  border: 2px solid #ff0000 !important; /* Red rectangles */
+  border: 1px solid var(--background-modifier-border) !important;
 }
 
 .tm-table tr.tm-row {
@@ -40,10 +40,10 @@
   padding: 8px 12px;
   line-height: 1.5;
   vertical-align: middle;
-  border: 1px solid #ff0000 !important; /* Red rectangles */
+  border: 1px solid var(--background-modifier-border) !important;
 }
 
-/* File Header Row styling: Red borders */
+/* File Header Row styling */
 .tm-file-header-row {
   background-color: var(--background-secondary-alt);
   border-bottom: 1px solid var(--background-modifier-border);
@@ -51,7 +51,7 @@
 
 .tm-file-header-cell {
   padding: 10px 12px !important;
-  border: 2px solid #ff0000 !important; /* Red rectangles */
+  border: 1px solid var(--background-modifier-border) !important;
 }
 
 /* File icon wrapper — flex row for icon + filename */

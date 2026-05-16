@@ -16,6 +16,6 @@
     *   Subsequent columns will display values from the `task.metadata` dictionary matching the column key.
 3.  **[x] CSS Grid/Table Styling:** Update `src/styles/` to implement defined borders and column widths using Obsidian CSS variables. (7aadc52)
 
-## Phase 4: Integration & Verification
+## Phase 4: Integration & Verification [checkpoint: 4e1cc3f]
 1.  **[x] Unit Tests:** Add tests to `tests/heading-mapper.test.ts` to verify inline field parsing. (8a13ca2)
 2.  **[x] Visual Verification:** Run `scripts/deploy.sh` and capture screenshots via the sandbox scripts to ensure the new table layout renders correctly with the defined columns. (6328c28)

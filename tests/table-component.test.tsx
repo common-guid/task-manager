@@ -36,6 +36,19 @@ describe('TaskTable Component', () => {
     expect(screen.getByText('Status')).toBeInTheDocument();
   });
 
+  it('should render metadata values in rows', () => {
+    const tasksWithMetadata: HeadingTask[] = [
+      {
+        ...tasks[0],
+        metadata: { 'Status': 'In Progress' }
+      }
+    ];
+    render(<TaskTable tasks={tasksWithMetadata} settings={settings} />);
+    
+    expect(screen.getByText('In Progress')).toBeInTheDocument();
+    expect(screen.getByText('In Progress')).toHaveClass('tm-metadata-cell');
+  });
+
   it('should render task data in rows, including tags', () => {
     render(<TaskTable tasks={tasks} />);
     

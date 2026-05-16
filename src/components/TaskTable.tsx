@@ -185,7 +185,10 @@ const TaskRow = React.memo(({ task, onOpenLink, isCollapsed, onToggle, onTagCont
   onToggle: (id: string) => void,
   onTagContextMenu?: (tag: string, event: React.MouseEvent) => void,
   tagColors?: Record<string, string>,
-  settings?: { levelColors: string[] }
+  settings?: { 
+    levelColors: string[],
+    columns: string[]
+  }
 }) => {
   const handleLinkClick = (file: string, heading: string) => {
     if (onOpenLink) {
@@ -234,78 +237,94 @@ const TaskRow = React.memo(({ task, onOpenLink, isCollapsed, onToggle, onTagCont
 
   return (
     <tr className="tm-row" title={breadcrumb}>
-      <td
-        className="tm-current-level tm-link"
-        onClick={() => handleLinkClick(task.file, task.text || '')}
-      >
-        <div className="tm-cell-content" style={{ paddingLeft: `${indentation}px` }}>
-          {/* Render indentation guides based on level */}
-          {Array.from({ length: task.level - 1 }).map((_, i) => (
-            <div
-              key={i}
-              className="tm-indent-guide"
-              style={{ 
-                left: `${i * 20 + 8}px`,
-                backgroundColor: settings?.levelColors[i] || 'var(--background-modifier-border)',
-                width: '4px'
-              }}
-            />
-          ))}
-          <div className="tm-title-row">
-            {task.hasChildren && (
-              <Chevron isCollapsed={isCollapsed} onClick={(e) => {
-                e.stopPropagation();
-                onToggle(task.id);
-              }} />
-            )}
-            {isTask && (isChecked ? <CheckSquareIcon /> : <SquareIcon />)}
-            <span className="tm-level-pill" style={getHeadingStyle(task.level)}>
-              {displayText}
-            </span>
-            <div className="tm-actions-container">
-              <button
-                className="tm-action-btn"
-                title="Copy Link"
-                style={{ 
-                  width: '10px', 
-                  height: '10px', 
-                  minWidth: '10px', 
-                  minHeight: '10px', 
-                  padding: 0, 
-                  display: 'flex', 
-                  alignItems: 'center', 
-                  justifyContent: 'center',
-                  borderRadius: '2px'
-                }}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  const linkText = `[[${task.file}#${task.text}]]`;
-                  navigator.clipboard.writeText(linkText);
-                }}
-              >
-                <CopyIcon />
-              </button>
-            </div>
-          </div>
-          {task.tags.length > 0 && (
-            <div className="tm-tag-container">
-              {task.tags.map((tag, idx) => (
-                <TagPill 
-                  key={idx} 
-                  tag={tag} 
-                  onContextMenu={onTagContextMenu} 
-                  customColor={tagColors?.[tag]} 
-                />
-              ))}
-            </div>
-          )}
-        </div>
-      </td>
+      {settings?.columns.map((col, idx) => {
+        const isPrimary = idx === 0 || col.toLowerCase() === 'task';
+        
+        if (isPrimary) {
+          return (
+            <td
+              key={idx}
+              className="tm-current-level tm-link"
+              onClick={() => handleLinkClick(task.file, task.text || '')}
+            >
+              <div className="tm-cell-content" style={{ paddingLeft: `${indentation}px` }}>
+                {/* Render indentation guides based on level */}
+                {Array.from({ length: task.level - 1 }).map((_, i) => (
+                  <div
+                    key={i}
+                    className="tm-indent-guide"
+                    style={{ 
+                      left: `${i * 20 + 8}px`,
+                      backgroundColor: settings?.levelColors[i] || 'var(--background-modifier-border)',
+                      width: '4px'
+                    }}
+                  />
+                ))}
+                <div className="tm-title-row">
+                  {task.hasChildren && (
+                    <Chevron isCollapsed={isCollapsed} onClick={(e) => {
+                      e.stopPropagation();
+                      onToggle(task.id);
+                    }} />
+                  )}
+                  {isTask && (isChecked ? <CheckSquareIcon /> : <SquareIcon />)}
+                  <span className="tm-level-pill" style={getHeadingStyle(task.level)}>
+                    {displayText}
+                  </span>
+                  <div className="tm-actions-container">
+                    <button
+                      className="tm-action-btn"
+                      title="Copy Link"
+                      style={{ 
+                        width: '10px', 
+                        height: '10px', 
+                        minWidth: '10px', 
+                        minHeight: '10px', 
+                        padding: 0, 
+                        display: 'flex', 
+                        alignItems: 'center', 
+                        justifyContent: 'center',
+                        borderRadius: '2px'
+                      }}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        const linkText = `[[${task.file}#${task.text}]]`;
+                        navigator.clipboard.writeText(linkText);
+                      }}
+                    >
+                      <CopyIcon />
+                    </button>
+                  </div>
+                </div>
+                {task.tags.length > 0 && (
+                  <div className="tm-tag-container">
+                    {task.tags.map((tag, idx) => (
+                      <TagPill 
+                        key={idx} 
+                        tag={tag} 
+                        onContextMenu={onTagContextMenu} 
+                        customColor={tagColors?.[tag]} 
+                      />
+                    ))}
+                  </div>
+                )}
+              </div>
+            </td>
+          );
+        } else {
+          return (
+            <td key={idx} className="tm-metadata-cell">
+              {task.metadata[col] || ''}
+            </td>
+          );
+        }
+      })}
     </tr>
   );
 });
 
-export const TaskTable: React.FC<TaskTableProps> = ({ tasks, onOpenLink, onTagContextMenu, tagColors, settings }) => {
+export const TaskTable: React.FC<TaskTableProps> = ({ tasks, onOpenLink, onTagContextMenu, tagColors, settings: providedSettings }) => {
+  const settings = providedSettings || { levelColors: [], columns: ['Task'] };
   const [collapsedIds, setCollapsedIds] = useState<Set<string>>(new Set());
 
   const handleToggle = (id: string) => {

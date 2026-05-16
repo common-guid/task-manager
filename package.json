@@ -6,7 +6,7 @@
     "test": "vitest run",
     "build": "esbuild src/main.ts --bundle --external:obsidian --format=cjs --target=es2018 --outfile=main.js && npm run copy",
     "dev": "esbuild src/main.ts --bundle --external:obsidian --format=cjs --target=es2018 --watch --outfile=main.js",
-    "copy": "mkdir -p test-vault/.obsidian/plugins/task-view && cp main.js manifest.json styles.css test-vault/.obsidian/plugins/task-view/ 2>/dev/null || true"
+    "copy": "mkdir -p test-vault/.obsidian/plugins/task-view && cp main.js manifest.json src/styles/styles.css test-vault/.obsidian/plugins/task-view/ 2>/dev/null || true"
   },
   "keywords": [],
   "author": "",

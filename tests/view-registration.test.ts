@@ -78,7 +78,7 @@ describe('TaskBasesView', () => {
     expect(view.type).toBe(ExampleViewType);
   });
 
-  it('should flatten Bases data into heading-based tasks', () => {
+  it('should flatten Bases data into heading-based tasks', async () => {
     const view = new TaskBasesView(controller, parentEl, mockPlugin);
     
     // Mock Obsidian app with metadata cache
@@ -91,6 +91,9 @@ describe('TaskBasesView', () => {
           ],
           tags: []
         })
+      },
+      vault: {
+        cachedRead: vi.fn().mockResolvedValue('test content')
       }
     };
 
@@ -107,22 +110,22 @@ describe('TaskBasesView', () => {
 
     // This is where we'll test the flattening logic. 
     const spy = vi.spyOn(view as any, 'flattenData');
-    view.onDataUpdated();
+    await view.onDataUpdated();
     
     expect(spy).toHaveBeenCalled();
-    const result = spy.mock.results[0].value;
+    const result = await spy.mock.results[0].value;
     expect(result).toHaveLength(2);
     expect(result[0].h1.text).toBe('Task 1');
     expect(result[1].h2.text).toBe('Task 2');
   });
 
-  it('should return empty array if data is missing', () => {
+  it('should return empty array if data is missing', async () => {
     const view = new TaskBasesView(controller, parentEl, mockPlugin);
     (view as any).data = null;
-    expect((view as any).flattenData()).toEqual([]);
+    expect(await (view as any).flattenData()).toEqual([]);
   });
 
-  it('should skip files with no metadata cache', () => {
+  it('should skip files with no metadata cache', async () => {
     const view = new TaskBasesView(controller, parentEl, mockPlugin);
     (view as any).app = {
       metadataCache: {
@@ -132,6 +135,6 @@ describe('TaskBasesView', () => {
     (view as any).data = {
       groupedData: [{ entries: [{ file: { name: 'test.md' } }] }]
     };
-    expect((view as any).flattenData()).toEqual([]);
+    expect(await (view as any).flattenData()).toEqual([]);
   });
 });

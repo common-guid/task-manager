@@ -25,11 +25,14 @@ export interface HeadingTask {
   tags: string[];
   /** Whether this heading has any sub-headings beneath it. */
   hasChildren: boolean;
+  /** Metadata extracted from dataview inline fields */
+  metadata: Record<string, string>;
 }
 
 export interface TaskManagerSettings {
   tagColors: Record<string, string>;
   levelColors: string[];
+  columns: string[];
 }
 
 export const DEFAULT_SETTINGS: TaskManagerSettings = {
@@ -41,5 +44,12 @@ export const DEFAULT_SETTINGS: TaskManagerSettings = {
     '#e070af', // Level 4 - Pinkish
     '#e0e0e0', // Level 5 - Whitish
     '#e0a170', // Level 6 - Orangish
+  ],
+  columns: [
+    "Title: file name / task",
+    "Priority",
+    "Due Date",
+    "Queue",
+    "Description"
   ]
 };

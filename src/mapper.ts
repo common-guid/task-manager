@@ -46,10 +46,48 @@ function getTagsForHeading(
   return Array.from(new Set([...headingTextTags, ...sectionTags]));
 }
 
+/**
+ * Scans the file content beneath a heading (up to the next heading) for Dataview-style
+ * inline metadata fields, e.g., "Status:: In Progress".
+ */
+export function extractMetadataForHeading(
+  headingIdx: number,
+  headings: HeadingCache[],
+  fileContent: string
+): Record<string, string> {
+  const metadata: Record<string, string> = {};
+
+  if (!fileContent) return metadata;
+
+  const currentHeading = headings[headingIdx];
+  const nextHeading = headings[headingIdx + 1];
+
+  const lines = fileContent.split('\n');
+  const startLine = currentHeading.position.start.line;
+  const endLine = nextHeading ? nextHeading.position.start.line : lines.length;
+
+  // Extract the text for this section
+  const sectionText = lines.slice(startLine + 1, endLine).join('\n');
+
+  // Dataview inline field regex: Key:: Value
+  // Supports optional whitespace around the ::
+  const regex = /^([a-zA-Z0-9_-]+)::\s*(.*)$/gm;
+  let match;
+
+  while ((match = regex.exec(sectionText)) !== null) {
+    const key = match[1].trim();
+    const value = match[2].trim();
+    metadata[key] = value;
+  }
+
+  return metadata;
+}
+
 export function mapHeadingsToTasks(
   fileName: string, 
   headings: HeadingCache[], 
-  tags: TagCache[] = []
+  tags: TagCache[] = [],
+  fileContent: string = ''
 ): HeadingTask[] {
   const tasks: HeadingTask[] = [];
   const currentPath: HeadingLevel[] = [
@@ -68,6 +106,7 @@ export function mapHeadingsToTasks(
     
     const { text: cleanText } = extractTagsFromText(headingCache.heading);
     const combinedTags = getTagsForHeading(i, headings, tags);
+    const metadata = extractMetadataForHeading(i, headings, fileContent);
     
     // Assign a unique ID to this heading
     const headingId = `${fileName}:${i}`;
@@ -98,7 +137,8 @@ export function mapHeadingsToTasks(
       level: level,
       text: cleanText,
       tags: combinedTags,
-      hasChildren
+      hasChildren,
+      metadata
     };
 
     tasks.push(task);

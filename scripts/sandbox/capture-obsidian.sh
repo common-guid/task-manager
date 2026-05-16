@@ -1,9 +1,9 @@
 #!/bin/bash
 # capture-obsidian.sh: Launch Obsidian and capture a screenshot for verification
 
-PROJECT_ROOT="/home/guid/projects/obsidian_dev/task-manager"
+PROJECT_ROOT="${PROJECT_ROOT:-$(pwd)}"
 VAULT_PATH="$PROJECT_ROOT/test-vault"
-SCREENSHOT_DIR="/home/guid/.gemini/tmp/task-manager/verification"
+SCREENSHOT_DIR="${SCREENSHOT_DIR:-$PROJECT_ROOT/tests/interface_images}"
 SCREENSHOT_PATH="$SCREENSHOT_DIR/obsidian-capture-$(date +%Y%m%d-%H%M%S).png"
 LOG_BOOK="$PROJECT_ROOT/LOG_BOOK.md"
 PLUGIN_DIR="$VAULT_PATH/.obsidian/plugins/task-view"

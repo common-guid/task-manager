@@ -117,6 +117,18 @@ class TaskManagerSettingTab extends PluginSettingTab {
             await this.plugin.saveSettings();
           }));
     });
+
+    containerEl.createEl('h3', { text: 'Table Columns' });
+
+    new Setting(containerEl)
+      .setName('Columns')
+      .setDesc('Comma-separated list of columns to display in the task table.')
+      .addTextArea(textArea => textArea
+        .setValue(this.plugin.settings.columns.join(', '))
+        .onChange(async (value) => {
+          this.plugin.settings.columns = value.split(',').map(c => c.trim()).filter(c => c.length > 0);
+          await this.plugin.saveSettings();
+        }));
   }
 }
 
@@ -132,8 +144,8 @@ export class TaskBasesView extends BasesView {
     this.containerEl = parentEl.createDiv('task-manager-view-container');
   }
 
-  onDataUpdated(): void {
-    const flattenedTasks = this.flattenData();
+  async onDataUpdated(): Promise<void> {
+    const flattenedTasks = await this.flattenData();
     
     if (!this.root) {
       this.root = createRoot(this.containerEl);
@@ -171,7 +183,7 @@ export class TaskBasesView extends BasesView {
     );
   }
 
-  protected flattenData(): HeadingTask[] {
+  protected async flattenData(): Promise<HeadingTask[]> {
     const allTasks: HeadingTask[] = [];
     const { app, data } = this;
 
@@ -182,7 +194,8 @@ export class TaskBasesView extends BasesView {
         const file = entry.file;
         const cache = app.metadataCache.getFileCache(file);
         if (cache && cache.headings) {
-          const fileTasks = mapHeadingsToTasks(file.name, cache.headings, cache.tags || []);
+          const content = await app.vault.cachedRead(file);
+          const fileTasks = mapHeadingsToTasks(file.name, cache.headings, cache.tags || [], content);
           allTasks.push(...fileTasks);
         }
       }

@@ -44,3 +44,14 @@ Implemented several quality-of-life UI updates to `TaskTable.tsx` and establishe
 - **Project Roadmap**: Conducted a deep dive into project intent and established a `Roadmap.md` (in `conductor/`) outlining immediate functional gains (interactive checkboxes, inline editing) and strategic big ideas (Kanban views, timeline visualization).
 - Verified changes via successful `npm run build` and manual inspection of the component code.
 
+
+## Visual Verification | 2026-05-16
+Screenshot captured: `/app/tests/interface_images/obsidian-capture-20260516-142014.png`
+
+
+## Visual Verification | 2026-05-16
+Screenshot captured: `/app/tests/interface_images/obsidian-capture-20260516-143326.png`
+
+
+## Table Dashboard Interface | 2026-05-16
+Transitioned the hierarchical view into a multi-column dashboard. Implemented Dataview-style inline metadata parsing and display.

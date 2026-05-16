@@ -5,7 +5,7 @@
 2.  **[x] Regex Parser:** In `src/mapper.ts`, implement a function to scan text beneath a heading for Dataview-style inline pairs using a regex (e.g., `/^([a-zA-Z0-9_-]+)::\s*(.*)$/gm`). (d3b4404)
 3.  **[x] Populate Metadata:** Update `mapHeadingsToTasks` to use this parser and populate the `metadata` dictionary for each parsed task. Ensure the search text stops at the next heading. (1a517d4)
 
-## Phase 2: Configuration & State
+## Phase 2: Configuration & State [checkpoint: e6f481f]
 1.  **[x] Column Settings:** Update `TaskManagerSettings` in `src/types.ts` to include a `columns` configuration (an array of column names/keys). (117aa0e)
 2.  **[x] Settings UI:** Update `TaskManagerSettingTab` in `src/main.ts` so users can add, remove, and reorder columns. Include a default setup (e.g., ["Task", "Status", "Due"]). (5504292)
 

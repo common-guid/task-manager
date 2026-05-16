@@ -44,3 +44,12 @@ Implemented several quality-of-life UI updates to `TaskTable.tsx` and establishe
 - **Project Roadmap**: Conducted a deep dive into project intent and established a `Roadmap.md` (in `conductor/`) outlining immediate functional gains (interactive checkboxes, inline editing) and strategic big ideas (Kanban views, timeline visualization).
 - Verified changes via successful `npm run build` and manual inspection of the component code.
 
+
+## Table Dashboard Interface | 2026-05-16
+Implemented a multi-column dashboard interface by extracting Dataview-style inline metadata and providing a configurable table UI.
+- **Inline Metadata Extraction**: Updated `src/mapper.ts` with a regex-based parser to extract `Key:: Value` pairs from note content beneath headings. Modified the data model to include a `metadata` dictionary for every task.
+- **Configurable Columns**: Added a `columns` setting to `TaskManagerSettings` and implemented a management UI in the plugin settings tab, allowing users to add, rename, reorder, and remove dashboard columns.
+- **Multi-Column UI**: Refactored `src/components/TaskTable.tsx` to render a structured `<thead>` based on user settings. Updated `TaskRow` to dynamically render metadata values in their respective columns while preserving hierarchical indentation in the primary column.
+- **Native Aesthetic**: Created a comprehensive `styles.css` using standard Obsidian CSS variables for a clean, integrated look. Corrected initial reference-based colors to align with Obsidian's native theme.
+- **Robust Verification**: Added comprehensive unit tests in `tests/metadata-parsing.test.ts` covering various edge cases for the metadata parser and updated component tests to validate the multi-column layout.
+- **Project Alignment**: Synchronized `conductor/product.md` and `conductor/tech-stack.md` to reflect the transition to a database-driven dashboard interface.

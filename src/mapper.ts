@@ -65,10 +65,12 @@ export function extractInlineMetadata(text: string): Record<string, string> {
 
 export function mapHeadingsToTasks(
   fileName: string, 
+  content: string,
   headings: HeadingCache[], 
   tags: TagCache[] = []
 ): HeadingTask[] {
   const tasks: HeadingTask[] = [];
+  const lines = content.split('\n');
   const currentPath: HeadingLevel[] = [
     { id: null, text: null, tags: [] }, // level 0 unused
     { id: null, text: null, tags: [] }, 
@@ -103,6 +105,12 @@ export function mapHeadingsToTasks(
       }
     }
 
+    // Extract metadata from the content between this heading and the next
+    const startLine = headingCache.position.start.line + 1;
+    const endLine = i < headings.length - 1 ? headings[i + 1].position.start.line : lines.length;
+    const sectionContent = lines.slice(startLine, endLine).join('\n');
+    const metadata = extractInlineMetadata(sectionContent);
+
     const task: HeadingTask = {
       id: headingId,
       file: fileName,
@@ -116,7 +124,7 @@ export function mapHeadingsToTasks(
       text: cleanText,
       tags: combinedTags,
       hasChildren,
-      metadata: {},
+      metadata,
     };
 
     tasks.push(task);

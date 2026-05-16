@@ -132,8 +132,8 @@ export class TaskBasesView extends BasesView {
     this.containerEl = parentEl.createDiv('task-manager-view-container');
   }
 
-  onDataUpdated(): void {
-    const flattenedTasks = this.flattenData();
+  async onDataUpdated(): Promise<void> {
+    const flattenedTasks = await this.flattenData();
     
     if (!this.root) {
       this.root = createRoot(this.containerEl);
@@ -171,7 +171,7 @@ export class TaskBasesView extends BasesView {
     );
   }
 
-  protected flattenData(): HeadingTask[] {
+  protected async flattenData(): Promise<HeadingTask[]> {
     const allTasks: HeadingTask[] = [];
     const { app, data } = this;
 
@@ -180,9 +180,10 @@ export class TaskBasesView extends BasesView {
     for (const group of data.groupedData) {
       for (const entry of group.entries) {
         const file = entry.file;
-        const cache = app.metadataCache.getFileCache(file);
+        const cache = this.app.metadataCache.getFileCache(file);
         if (cache && cache.headings) {
-          const fileTasks = mapHeadingsToTasks(file.name, cache.headings, cache.tags || []);
+          const content = await this.app.vault.cachedRead(file);
+          const fileTasks = mapHeadingsToTasks(file.name, content, cache.headings, cache.tags || []);
           allTasks.push(...fileTasks);
         }
       }

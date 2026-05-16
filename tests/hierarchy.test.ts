@@ -11,7 +11,7 @@ describe('Heading Hierarchy Mapping', () => {
       { heading: 'Task 2', level: 2, position: { start: { line: 15 } } },
     ] as any[];
 
-    const tasks = mapHeadingsToTasks(fileName, headings);
+    const tasks = mapHeadingsToTasks(fileName, '', headings);
 
     expect(tasks).toHaveLength(4);
 
@@ -48,7 +48,7 @@ describe('Heading Hierarchy Mapping', () => {
         { heading: 'Leaf', level: 3, position: { start: { line: 10 } } },
     ] as any[];
 
-    const tasks = mapHeadingsToTasks(fileName, headings);
+    const tasks = mapHeadingsToTasks(fileName, '', headings);
 
     // Leaf should have Root and Middle as parents
     expect(tasks[2].h1.id).toBe('parents.md:0');

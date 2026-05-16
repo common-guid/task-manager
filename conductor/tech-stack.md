@@ -8,7 +8,7 @@
 
 ## Data Storage & Architecture
 - **Local-First Architecture:** All task data remains within the user's local Obsidian vault.
-- **Markdown-Centric:** Tasks and metadata are stored in standard Markdown and frontmatter/properties.
+- **Markdown-Centric:** Tasks and metadata are stored in standard Markdown, frontmatter/properties, and Dataview-style inline fields (Key:: Value).
 - **Bases Syntax:** Leverage Obsidian's `.base` format and embedded code blocks for task management logic.
 
 ## Supporting Tools

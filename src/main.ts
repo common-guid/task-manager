@@ -117,6 +117,63 @@ class TaskManagerSettingTab extends PluginSettingTab {
             await this.plugin.saveSettings();
           }));
     });
+
+    containerEl.createEl('h3', { text: 'Dashboard Columns' });
+    containerEl.createEl('p', { text: 'Configure the columns displayed in the task table dashboard. The first column is usually "Task".' });
+
+    this.plugin.settings.columns.forEach((col, index) => {
+      const s = new Setting(containerEl)
+        .setName(`Column ${index + 1}`)
+        .addText(text => text
+          .setValue(col)
+          .onChange(async (value) => {
+            this.plugin.settings.columns[index] = value;
+            await this.plugin.saveSettings();
+          }))
+        .addExtraButton(btn => btn
+          .setIcon('up-chevron-glyph')
+          .setTooltip('Move Up')
+          .onClick(async () => {
+            if (index > 0) {
+              const temp = this.plugin.settings.columns[index];
+              this.plugin.settings.columns[index] = this.plugin.settings.columns[index - 1];
+              this.plugin.settings.columns[index - 1] = temp;
+              await this.plugin.saveSettings();
+              this.display();
+            }
+          }))
+        .addExtraButton(btn => btn
+          .setIcon('down-chevron-glyph')
+          .setTooltip('Move Down')
+          .onClick(async () => {
+            if (index < this.plugin.settings.columns.length - 1) {
+              const temp = this.plugin.settings.columns[index];
+              this.plugin.settings.columns[index] = this.plugin.settings.columns[index + 1];
+              this.plugin.settings.columns[index + 1] = temp;
+              await this.plugin.saveSettings();
+              this.display();
+            }
+          }))
+        .addExtraButton(btn => btn
+          .setIcon('trash')
+          .setTooltip('Remove Column')
+          .onClick(async () => {
+            this.plugin.settings.columns.splice(index, 1);
+            await this.plugin.saveSettings();
+            this.display();
+          }));
+    });
+
+    new Setting(containerEl)
+      .setName('Add New Column')
+      .addButton(btn => btn
+        .setButtonText('Add')
+        .setCta()
+        .onClick(async () => {
+          this.plugin.settings.columns.push('New Column');
+          await this.plugin.saveSettings();
+          this.display();
+        }));
   }
 }
 

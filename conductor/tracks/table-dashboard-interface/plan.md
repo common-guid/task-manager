@@ -18,4 +18,4 @@
 
 ## Phase 4: Integration & Verification
 1.  **[x] Unit Tests:** Add tests to `tests/heading-mapper.test.ts` to verify inline field parsing. (8a13ca2)
-2.  **Visual Verification:** Run `scripts/deploy.sh` and capture screenshots via the sandbox scripts to ensure the new table layout renders correctly with the defined columns.
+2.  **[x] Visual Verification:** Run `scripts/deploy.sh` and capture screenshots via the sandbox scripts to ensure the new table layout renders correctly with the defined columns. (6328c28)

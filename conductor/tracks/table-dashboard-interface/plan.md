@@ -11,7 +11,7 @@
 
 ## Phase 3: Dashboard UI Overhaul
 1.  **[x] Refactor Table Structure:** Modify `src/components/TaskTable.tsx` to output a standard `<thead>` for the column titles. Apply styling to match the objective (e.g., yellow title bar, green text). (673e66e)
-2.  **Row Rendering:** Refactor `TaskRow` to map over the configured columns.
+2.  **[x] Row Rendering:** Refactor `TaskRow` to map over the configured columns. (1ef6653)
     *   The primary column ("Task") will contain the current hierarchical visual logic (indentation, collapse chevron, task text).
     *   Subsequent columns will display values from the `task.metadata` dictionary matching the column key.
 3.  **CSS Grid/Table Styling:** Update `src/styles/` to implement defined borders and column widths (the "red rectangles").

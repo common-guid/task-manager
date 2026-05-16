@@ -14,7 +14,7 @@
 2.  **[x] Row Rendering:** Refactor `TaskRow` to map over the configured columns. (1ef6653)
     *   The primary column ("Task") will contain the current hierarchical visual logic (indentation, collapse chevron, task text).
     *   Subsequent columns will display values from the `task.metadata` dictionary matching the column key.
-3.  **CSS Grid/Table Styling:** Update `src/styles/` to implement defined borders and column widths (the "red rectangles").
+3.  **[x] CSS Grid/Table Styling:** Update `src/styles/` to implement defined borders and column widths (the "red rectangles"). (9e0ac69)
 
 ## Phase 4: Integration & Verification
 1.  **Unit Tests:** Add tests to `tests/heading-mapper.test.ts` to verify inline field parsing.

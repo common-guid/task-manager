@@ -17,5 +17,5 @@
 3.  **[x] CSS Grid/Table Styling:** Update `src/styles/` to implement defined borders and column widths using Obsidian CSS variables. (7aadc52)
 
 ## Phase 4: Integration & Verification
-1.  **Unit Tests:** Add tests to `tests/heading-mapper.test.ts` to verify inline field parsing.
+1.  **[x] Unit Tests:** Add tests to `tests/heading-mapper.test.ts` to verify inline field parsing. (8a13ca2)
 2.  **Visual Verification:** Run `scripts/deploy.sh` and capture screenshots via the sandbox scripts to ensure the new table layout renders correctly with the defined columns.

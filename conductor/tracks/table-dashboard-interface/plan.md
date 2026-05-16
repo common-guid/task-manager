@@ -2,7 +2,7 @@
 
 ## Phase 1: Data Model Extraction
 1.  **[x] Update Types:** Modify `src/types.ts` to add a `metadata: Record<string, string>` property to the `HeadingTask` interface. (9a32410)
-2.  **Regex Parser:** In `src/mapper.ts`, implement a function to scan text beneath a heading for Dataview-style inline pairs using a regex (e.g., `/^([a-zA-Z0-9_-]+)::\s*(.*)$/gm`).
+2.  **[x] Regex Parser:** In `src/mapper.ts`, implement a function to scan text beneath a heading for Dataview-style inline pairs using a regex (e.g., `/^([a-zA-Z0-9_-]+)::\s*(.*)$/gm`). (d3b4404)
 3.  **Populate Metadata:** Update `mapHeadingsToTasks` to use this parser and populate the `metadata` dictionary for each parsed task. Ensure the search text stops at the next heading.
 
 ## Phase 2: Configuration & State

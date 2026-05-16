@@ -29,4 +29,19 @@ describe('extractInlineMetadata', () => {
     const metadata = extractInlineMetadata(text);
     expect(metadata).toEqual({ 'Key': 'Value' });
   });
+
+  it('should handle keys with numbers, dashes and underscores', () => {
+    const text = 'Key-1:: Val1\nKey_2:: Val2';
+    const metadata = extractInlineMetadata(text);
+    expect(metadata).toEqual({
+      'Key-1': 'Val1',
+      'Key_2': 'Val2'
+    });
+  });
+
+  it('should handle values with special characters', () => {
+    const text = 'Status:: [Done] (High Priority!)';
+    const metadata = extractInlineMetadata(text);
+    expect(metadata).toEqual({ 'Status': '[Done] (High Priority!)' });
+  });
 });

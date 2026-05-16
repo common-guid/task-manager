@@ -8,6 +8,7 @@ interface TaskTableProps {
   tagColors?: Record<string, string>;
   settings?: {
     levelColors: string[];
+    columns: string[];
   };
 }
 
@@ -351,11 +352,20 @@ export const TaskTable: React.FC<TaskTableProps> = ({ tasks, onOpenLink, onTagCo
   return (
     <div className="tm-container">
       <table className="tm-table">
+        <thead>
+          <tr className="tm-header-row">
+            {settings?.columns.map((col, idx) => (
+              <th key={idx} className="tm-header-cell">
+                {col}
+              </th>
+            ))}
+          </tr>
+        </thead>
         <tbody>
           {groupedTasks.map((group, gIdx) => (
             <React.Fragment key={group.file}>
               <tr className="tm-file-header-row">
-                <td className="tm-file-header-cell">
+                <td className="tm-file-header-cell" colSpan={settings?.columns.length || 1}>
                   <div className="tm-file-icon-wrapper">
                     <FileIcon />
                     <span className="tm-file-name" style={{ fontSize: 'var(--h1-size, 2em)', fontWeight: 'bold' }}>{group.file}</span>

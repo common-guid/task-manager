@@ -12,7 +12,7 @@ describe('TaskTable Grouping & Indentation', () => {
       file: 'file1.md',
       h1: { id: 'f1h1', text: 'Heading 1', tags: [] },
       h2: emptyLevel, h3: emptyLevel, h4: emptyLevel, h5: emptyLevel, h6: emptyLevel,
-      level: 1, text: 'Heading 1', tags: [], hasChildren: false
+      level: 1, text: 'Heading 1', tags: [], hasChildren: false, metadata: {}
     },
     {
       id: 'f1h2',
@@ -20,14 +20,14 @@ describe('TaskTable Grouping & Indentation', () => {
       h1: { id: 'f1h1', text: 'Heading 1', tags: [] },
       h2: { id: 'f1h2', text: 'Heading 2', tags: [] },
       h3: emptyLevel, h4: emptyLevel, h5: emptyLevel, h6: emptyLevel,
-      level: 2, text: 'Heading 2', tags: [], hasChildren: false
+      level: 2, text: 'Heading 2', tags: [], hasChildren: false, metadata: {}
     },
     {
       id: 'f2h1',
       file: 'file2.md',
       h1: { id: 'f2h1', text: 'Another file', tags: [] },
       h2: emptyLevel, h3: emptyLevel, h4: emptyLevel, h5: emptyLevel, h6: emptyLevel,
-      level: 1, text: 'Another file', tags: [], hasChildren: false
+      level: 1, text: 'Another file', tags: [], hasChildren: false, metadata: {}
     }
   ];
 

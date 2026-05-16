@@ -19,17 +19,21 @@ describe('TaskTable Component', () => {
       level: 2,
       text: 'Task A',
       tags: ['task-tag'],
-      hasChildren: false
+      hasChildren: false,
+      metadata: {}
     }
   ];
+  const settings = {
+    levelColors: ['red', 'blue'],
+    columns: ['Task', 'Status']
+  };
 
-  it('should render a table without h1-h6 columns', () => {
-    render(<TaskTable tasks={tasks} />);
+  it('should render a table with configured columns', () => {
+    render(<TaskTable tasks={tasks} settings={settings} />);
     
     expect(screen.getByRole('table')).toBeInTheDocument();
-    expect(screen.queryByText('file')).not.toBeInTheDocument();
-    expect(screen.queryByText('h1')).not.toBeInTheDocument();
-    expect(screen.queryByText('h2')).not.toBeInTheDocument();
+    expect(screen.getByText('Task')).toBeInTheDocument();
+    expect(screen.getByText('Status')).toBeInTheDocument();
   });
 
   it('should render task data in rows, including tags', () => {

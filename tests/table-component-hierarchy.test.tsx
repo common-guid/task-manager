@@ -12,7 +12,7 @@ describe('TaskTable Component Hierarchy', () => {
       file: 'test.md',
       h1: { id: 'p1', text: 'Project', tags: [] },
       h2: emptyLevel, h3: emptyLevel, h4: emptyLevel, h5: emptyLevel, h6: emptyLevel,
-      level: 1, text: 'Project', tags: [], hasChildren: true
+      level: 1, text: 'Project', tags: [], hasChildren: true, metadata: {}
     },
     {
       id: 't1',
@@ -20,7 +20,7 @@ describe('TaskTable Component Hierarchy', () => {
       h1: { id: 'p1', text: 'Project', tags: [] },
       h2: { id: 't1', text: 'Task 1', tags: [] },
       h3: emptyLevel, h4: emptyLevel, h5: emptyLevel, h6: emptyLevel,
-      level: 2, text: 'Task 1', tags: [], hasChildren: false
+      level: 2, text: 'Task 1', tags: [], hasChildren: false, metadata: {}
     }
   ];
 

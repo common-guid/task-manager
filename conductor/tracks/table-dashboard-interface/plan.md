@@ -7,7 +7,7 @@
 
 ## Phase 2: Configuration & State
 1.  **[x] Column Settings:** Update `TaskManagerSettings` in `src/types.ts` to include a `columns` configuration (an array of column names/keys). (117aa0e)
-2.  **Settings UI:** Update `TaskManagerSettingTab` in `src/main.ts` so users can add, remove, and reorder columns. Include a default setup (e.g., ["Task", "Status", "Due"]).
+2.  **[x] Settings UI:** Update `TaskManagerSettingTab` in `src/main.ts` so users can add, remove, and reorder columns. Include a default setup (e.g., ["Task", "Status", "Due"]). (5504292)
 
 ## Phase 3: Dashboard UI Overhaul
 1.  **Refactor Table Structure:** Modify `src/components/TaskTable.tsx` to output a standard `<thead>` for the column titles. Apply styling to match the objective (e.g., yellow title bar, green text).

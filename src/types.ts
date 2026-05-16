@@ -25,6 +25,8 @@ export interface HeadingTask {
   tags: string[];
   /** Whether this heading has any sub-headings beneath it. */
   hasChildren: boolean;
+  /** Extracted metadata from inline fields (e.g., Key:: Value). */
+  metadata: Record<string, string>;
 }
 
 export interface TaskManagerSettings {

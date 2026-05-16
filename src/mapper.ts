@@ -98,7 +98,8 @@ export function mapHeadingsToTasks(
       level: level,
       text: cleanText,
       tags: combinedTags,
-      hasChildren
+      hasChildren,
+      metadata: {},
     };
 
     tasks.push(task);

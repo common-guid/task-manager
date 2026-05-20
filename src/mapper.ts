@@ -132,3 +132,21 @@ export function mapHeadingsToTasks(
 
   return tasks;
 }
+
+/**
+ * Filters tasks based on visibility settings.
+ */
+export function filterTasks(tasks: HeadingTask[], hideCompleted: boolean): HeadingTask[] {
+  if (!hideCompleted) return tasks;
+
+  return tasks.filter(task => {
+    // Check for markdown task completion
+    const isCompletedMarkdown = task.text.startsWith('- [x] ') || task.text.startsWith('- [X] ');
+    
+    // Check for Status metadata completion
+    const status = (task.metadata['Status'] || '').toLowerCase();
+    const isCompletedMetadata = status === 'done' || status === 'completed';
+
+    return !isCompletedMarkdown && !isCompletedMetadata;
+  });
+}

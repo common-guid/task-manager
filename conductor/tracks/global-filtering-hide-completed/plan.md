@@ -10,12 +10,12 @@
 - [x] Add support for filtering by `Status` metadata field. aefb57c
 
 ## Phase 3: UI Implementation
-- [ ] Add a toolbar or header section to the `TaskTable` component.
-- [ ] Implement a "Hide Completed" toggle button using Obsidian's styling.
-- [ ] Connect the toggle state to the filtering logic.
+- [x] Add a toolbar or header section to the `TaskTable` component. 953f301
+- [x] Implement a "Hide Completed" toggle button using Obsidian's styling. 953f301
+- [x] Connect the toggle state to the filtering logic. 953f301
 
 ## Phase 4: Persistence
-- [ ] Save the filter state in the plugin settings so it persists across restarts.
+- [x] Save the filter state in the plugin settings so it persists across restarts. 953f301
 
 ## Phase 5: Testing & Validation
 - [ ] Verify filtering works with various task formats.

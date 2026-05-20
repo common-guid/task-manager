@@ -5,9 +5,9 @@
 - [x] Check how state is currently managed in the plugin.
 
 ## Phase 2: Filtering Logic
-- [ ] Implement a `filterTasks` function that takes the task list and filtering criteria.
-- [ ] Add support for filtering by checkbox status (`- [x]`).
-- [ ] Add support for filtering by `Status` metadata field.
+- [x] Implement a `filterTasks` function that takes the task list and filtering criteria. aefb57c
+- [x] Add support for filtering by checkbox status (`- [x]`). aefb57c
+- [x] Add support for filtering by `Status` metadata field. aefb57c
 
 ## Phase 3: UI Implementation
 - [ ] Add a toolbar or header section to the `TaskTable` component.

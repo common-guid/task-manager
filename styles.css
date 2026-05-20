@@ -10,6 +10,38 @@
   padding: 20px;
 }
 
+.tm-toolbar {
+  display: flex;
+  justify-content: flex-end;
+  padding-bottom: 12px;
+  gap: 12px;
+  align-items: center;
+}
+
+.tm-toolbar-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--font-ui-small);
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+  background: transparent;
+  border: 1px solid transparent;
+}
+
+.tm-toolbar-item:hover {
+  background-color: var(--background-modifier-hover);
+  color: var(--text-normal);
+}
+
+.tm-toolbar-item.is-active {
+  background-color: var(--background-modifier-hover);
+  color: var(--text-accent);
+  border-color: var(--background-modifier-border);
+}
+
 .tm-table {
   width: 100%;
   border-collapse: collapse;

@@ -1,14 +1,17 @@
 import React, { useState, useMemo } from 'react';
 import { HeadingTask, HeadingLevel } from '../types';
+import { filterTasks } from '../mapper';
 
 interface TaskTableProps {
   tasks: HeadingTask[];
   onOpenLink?: (file: string, heading: string) => void;
   onTagContextMenu?: (tag: string, event: React.MouseEvent) => void;
+  onSettingsChange?: (settings: any) => void;
   tagColors?: Record<string, string>;
   settings?: {
     levelColors: string[];
     columns: string[];
+    hideCompleted?: boolean;
   };
 }
 
@@ -87,6 +90,15 @@ const CheckSquareIcon: React.FC = () => (
   >
     <polyline points="9 11 12 14 22 4" />
     <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
+  </svg>
+);
+
+const EyeOffIcon: React.FC = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"/>
+    <path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"/>
+    <path d="M6.61 6.61A13.52 13.52 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"/>
+    <line x1="2" y1="2" x2="22" y2="22"/>
   </svg>
 );
 
@@ -323,8 +335,8 @@ const TaskRow = React.memo(({ task, onOpenLink, isCollapsed, onToggle, onTagCont
   );
 });
 
-export const TaskTable: React.FC<TaskTableProps> = ({ tasks, onOpenLink, onTagContextMenu, tagColors, settings: providedSettings }) => {
-  const settings = providedSettings || { levelColors: [], columns: ['Task'] };
+export const TaskTable: React.FC<TaskTableProps> = ({ tasks, onOpenLink, onTagContextMenu, onSettingsChange, tagColors, settings: providedSettings }) => {
+  const settings = providedSettings || { levelColors: [], columns: ['Task'], hideCompleted: false };
   const [collapsedIds, setCollapsedIds] = useState<Set<string>>(new Set());
 
   const handleToggle = (id: string) => {
@@ -340,7 +352,9 @@ export const TaskTable: React.FC<TaskTableProps> = ({ tasks, onOpenLink, onTagCo
   };
 
   const filteredTasks = useMemo(() => {
-    return tasks.filter(task => {
+    const visibilityFiltered = filterTasks(tasks, !!settings.hideCompleted);
+    
+    return visibilityFiltered.filter(task => {
       // Check if any of its parents are collapsed
       for (let i = 1; i < task.level; i++) {
         const key = `h${i}` as keyof HeadingTask;
@@ -351,7 +365,7 @@ export const TaskTable: React.FC<TaskTableProps> = ({ tasks, onOpenLink, onTagCo
       }
       return true;
     });
-  }, [tasks, collapsedIds]);
+  }, [tasks, collapsedIds, settings.hideCompleted]);
 
   const groupedTasks = useMemo(() => {
     const groups: { file: string, tasks: HeadingTask[] }[] = [];
@@ -368,8 +382,27 @@ export const TaskTable: React.FC<TaskTableProps> = ({ tasks, onOpenLink, onTagCo
     return groups;
   }, [filteredTasks]);
 
+  const toggleHideCompleted = () => {
+    if (onSettingsChange) {
+      onSettingsChange({
+        ...settings,
+        hideCompleted: !settings.hideCompleted
+      });
+    }
+  };
+
   return (
     <div className="tm-container">
+      <div className="tm-toolbar">
+        <div 
+          className={`tm-toolbar-item ${settings.hideCompleted ? 'is-active' : ''}`}
+          onClick={toggleHideCompleted}
+          title="Hide Completed Tasks"
+        >
+          <EyeOffIcon />
+          <span>Hide Completed</span>
+        </div>
+      </div>
       <table className="tm-table">
         <thead>
           <tr className="tm-header-row">

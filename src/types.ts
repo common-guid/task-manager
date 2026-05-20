@@ -33,6 +33,7 @@ export interface TaskManagerSettings {
   tagColors: Record<string, string>;
   levelColors: string[];
   columns: string[];
+  hideCompleted: boolean;
 }
 
 export const DEFAULT_SETTINGS: TaskManagerSettings = {
@@ -45,5 +46,6 @@ export const DEFAULT_SETTINGS: TaskManagerSettings = {
     '#e0e0e0', // Level 5 - Whitish
     '#e0a170', // Level 6 - Orangish
   ],
-  columns: ['Task', 'Status', 'Due']
+  columns: ['Task', 'Status', 'Due'],
+  hideCompleted: false
 };

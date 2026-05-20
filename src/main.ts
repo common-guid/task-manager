@@ -104,6 +104,16 @@ class TaskManagerSettingTab extends PluginSettingTab {
 
     containerEl.createEl('h2', { text: 'Task Manager Settings' });
 
+    new Setting(containerEl)
+      .setName('Hide Completed Tasks')
+      .setDesc('When enabled, completed tasks and tasks with Status: Done/Completed will be hidden from the table.')
+      .addToggle(toggle => toggle
+        .setValue(this.plugin.settings.hideCompleted)
+        .onChange(async (value) => {
+          this.plugin.settings.hideCompleted = value;
+          await this.plugin.saveSettings();
+        }));
+
     containerEl.createEl('h3', { text: 'Hierarchy Colors' });
     
     this.plugin.settings.levelColors.forEach((color, index) => {
@@ -217,11 +227,17 @@ export class TaskBasesView extends BasesView {
       menu.showAtMouseEvent(event.nativeEvent);
     };
 
+    const handleSettingsChange = async (newSettings: TaskManagerSettings) => {
+      this.plugin.settings = newSettings;
+      await this.plugin.saveSettings();
+    };
+
     this.root.render(
       React.createElement(TaskTable, { 
         tasks: flattenedTasks,
         onOpenLink: handleOpenLink,
         onTagContextMenu: handleTagContextMenu,
+        onSettingsChange: handleSettingsChange,
         tagColors: { ...this.plugin.settings.tagColors },
         settings: this.plugin.settings
       })

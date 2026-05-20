@@ -1,8 +1,8 @@
 # Implementation Plan: Global Filtering & "Hide Completed" Toggle
 
 ## Phase 1: Research & Setup
-- [ ] Review current `TaskTable.tsx` and `mapper.ts` to identify the best place for filtering logic.
-- [ ] Check how state is currently managed in the plugin.
+- [x] Review current `TaskTable.tsx` and `mapper.ts` to identify the best place for filtering logic.
+- [x] Check how state is currently managed in the plugin.
 
 ## Phase 2: Filtering Logic
 - [ ] Implement a `filterTasks` function that takes the task list and filtering criteria.

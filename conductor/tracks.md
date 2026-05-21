@@ -9,6 +9,3 @@ Link: [./tracks/obsidian-native-feel/index.md](./tracks/obsidian-native-feel/ind
 ## [ ] Track: Immediate Functional Gains
 Link: [./tracks/immediate-functional-gains/index.md](./tracks/immediate-functional-gains/index.md)
 ---
-## [x] Track: Global Filtering & "Hide Completed" Toggle
-Link: [./tracks/global-filtering-hide-completed/index.md](./tracks/global-filtering-hide-completed/index.md)
----

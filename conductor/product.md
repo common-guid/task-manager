@@ -21,6 +21,7 @@ A seamless integration of task management and Obsidian's database-like "Bases" v
 - **Integrated Links:** Direct links between tasks, related notes, and project documentation for full contextual awareness.
 - **Status Visualization:** A polished, simple UI that provides clear visual feedback on task status and progress.
 - **Dynamic Metadata Visualization:** Intelligent tag pills with automatic and custom color-coding, and icon-enhanced badges for dates and priorities.
+- **Global Filtering:** Toggle visibility of completed tasks or focus on specific metadata states to maintain a clean and actionable workspace.
 
 ## Success Metrics
 - **Centralization:** All tasks across the vault are visible and manageable from the central Hub.

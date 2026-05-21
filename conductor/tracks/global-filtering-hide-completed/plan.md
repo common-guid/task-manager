@@ -17,7 +17,7 @@
 ## Phase 4: Persistence
 - [x] Save the filter state in the plugin settings so it persists across restarts. 953f301
 
-## Phase 5: Testing & Validation
+## Phase 5: Testing & Validation [checkpoint: 098aad4]
 - [x] Verify filtering works with various task formats. 70d2e45
 - [x] Test performance with a large number of completed tasks. 70d2e45
 - [x] Ensure no tasks are accidentally deleted from Markdown files. 70d2e45

@@ -336,8 +336,17 @@ const TaskRow = React.memo(({ task, onOpenLink, isCollapsed, onToggle, onTagCont
 });
 
 export const TaskTable: React.FC<TaskTableProps> = ({ tasks, onOpenLink, onTagContextMenu, onSettingsChange, tagColors, settings: providedSettings }) => {
-  const settings = providedSettings || { levelColors: [], columns: ['Task'], hideCompleted: false };
   const [collapsedIds, setCollapsedIds] = useState<Set<string>>(new Set());
+  const [localHideCompleted, setLocalHideCompleted] = useState(providedSettings?.hideCompleted || false);
+
+  // Sync local state with props when props change (e.g. from settings tab)
+  React.useEffect(() => {
+    if (providedSettings?.hideCompleted !== undefined) {
+      setLocalHideCompleted(providedSettings.hideCompleted);
+    }
+  }, [providedSettings?.hideCompleted]);
+
+  const settings = providedSettings || { levelColors: [], columns: ['Task'], hideCompleted: localHideCompleted };
 
   const handleToggle = (id: string) => {
     setCollapsedIds(prev => {
@@ -352,7 +361,7 @@ export const TaskTable: React.FC<TaskTableProps> = ({ tasks, onOpenLink, onTagCo
   };
 
   const filteredTasks = useMemo(() => {
-    const visibilityFiltered = filterTasks(tasks, !!settings.hideCompleted);
+    const visibilityFiltered = filterTasks(tasks, localHideCompleted);
     
     return visibilityFiltered.filter(task => {
       // Check if any of its parents are collapsed
@@ -365,7 +374,7 @@ export const TaskTable: React.FC<TaskTableProps> = ({ tasks, onOpenLink, onTagCo
       }
       return true;
     });
-  }, [tasks, collapsedIds, settings.hideCompleted]);
+  }, [tasks, collapsedIds, localHideCompleted]);
 
   const groupedTasks = useMemo(() => {
     const groups: { file: string, tasks: HeadingTask[] }[] = [];
@@ -383,10 +392,12 @@ export const TaskTable: React.FC<TaskTableProps> = ({ tasks, onOpenLink, onTagCo
   }, [filteredTasks]);
 
   const toggleHideCompleted = () => {
+    const newValue = !localHideCompleted;
+    setLocalHideCompleted(newValue);
     if (onSettingsChange) {
       onSettingsChange({
         ...settings,
-        hideCompleted: !settings.hideCompleted
+        hideCompleted: newValue
       });
     }
   };
@@ -395,7 +406,7 @@ export const TaskTable: React.FC<TaskTableProps> = ({ tasks, onOpenLink, onTagCo
     <div className="tm-container">
       <div className="tm-toolbar">
         <div 
-          className={`tm-toolbar-item ${settings.hideCompleted ? 'is-active' : ''}`}
+          className={`tm-toolbar-item ${localHideCompleted ? 'is-active' : ''}`}
           onClick={toggleHideCompleted}
           title="Hide Completed Tasks"
         >

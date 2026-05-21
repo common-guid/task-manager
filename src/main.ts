@@ -43,10 +43,11 @@ export default class TaskManagerPlugin extends Plugin {
 
   async saveSettings() {
     await this.saveData(this.settings);
-    // Refresh views after settings change
+    // Refresh all open Task Table views
     this.app.workspace.getLeavesOfType('bases').forEach((leaf: any) => {
-      if (leaf.view && leaf.view.type === ExampleViewType && typeof (leaf.view as any).onDataUpdated === 'function') {
-        (leaf.view as any).onDataUpdated();
+      const view = leaf.view;
+      if (view && typeof view.onDataUpdated === 'function') {
+        void view.onDataUpdated();
       }
     });
   }

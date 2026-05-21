@@ -140,12 +140,12 @@ export function filterTasks(tasks: HeadingTask[], hideCompleted: boolean): Headi
   if (!hideCompleted) return tasks;
 
   return tasks.filter(task => {
-    // Check for markdown task completion
-    const isCompletedMarkdown = task.text.startsWith('- [x] ') || task.text.startsWith('- [X] ');
+    // Check for markdown task completion (matches - [x], - [X], or even - [x] with any following text)
+    const isCompletedMarkdown = /^- \[[xX]\]/.test(task.text);
     
     // Check for Status metadata completion
-    const status = (task.metadata['Status'] || '').toLowerCase();
-    const isCompletedMetadata = status === 'done' || status === 'completed';
+    const status = (task.metadata['Status'] || task.metadata['status'] || '').toLowerCase();
+    const isCompletedMetadata = status === 'done' || status === 'completed' || status === 'x';
 
     return !isCompletedMarkdown && !isCompletedMetadata;
   });

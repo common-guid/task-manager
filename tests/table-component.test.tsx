@@ -89,4 +89,16 @@ describe('TaskTable Component', () => {
     taskLink?.click();
     expect(onOpenLink).toHaveBeenCalledWith('test.md', 'Task A');
   });
+
+  it('should call onSettingsChange when the Hide Completed toggle is clicked', () => {
+    const onSettingsChange = vi.fn();
+    render(<TaskTable tasks={tasks} settings={{ ...settings, hideCompleted: false }} onSettingsChange={onSettingsChange} />);
+    
+    const toggle = screen.getByText('Hide Completed').closest('.tm-toolbar-item');
+    toggle?.click();
+    
+    expect(onSettingsChange).toHaveBeenCalledWith(expect.objectContaining({
+      hideCompleted: true
+    }));
+  });
 });
